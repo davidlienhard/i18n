@@ -1,0 +1,36 @@
+name: check
+
+on: push
+
+jobs:
+  check:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: git fetch origin master
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        extensions: imagick
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run phplint
+      uses: StephaneBour/actions-php-lint@7.4
+
+    - name: Show changed files
+      run: composer changed-files
+
+    - name: Run phpdoccheck
+      run: composer phpdoccheck-diff
+
+    - name: Run phpcs
+      run: composer phpcs-diff
