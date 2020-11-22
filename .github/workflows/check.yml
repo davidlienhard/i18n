@@ -7,10 +7,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        php-versions: ['7.4', '8.0']
-
     steps:
     - uses: actions/checkout@v2
     - run: git fetch origin master
@@ -18,7 +14,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: '7.4'
 
     - name: Get composer cache directory
       id: composer-cache
