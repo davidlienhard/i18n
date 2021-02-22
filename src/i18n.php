@@ -5,8 +5,6 @@
  * @package         tourBase
  * @subpackage      Core\i18n
  * @author          David Lienhard <david@t-error.ch>
- * @version         1.0.0, 12.11.2020
- * @since           1.0.0, 12.11.2020, created
  * @copyright       tourasia
  */
 
@@ -20,8 +18,6 @@ use \DavidLienhard\i18n\i18nInterface;
  * class for internationalization
  *
  * @author          David Lienhard <david@t-error.ch>
- * @version         1.0.0, 12.11.2020
- * @since           1.0.0, 12.11.2020, created
  * @copyright       tourasia
  */
 class i18n implements i18nInterface
@@ -134,8 +130,6 @@ class i18n implements i18nInterface
      * The constructor sets all important settings. All params are optional, you can set the options via extra functions too.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string|null     $filePath       This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language.
      * @param           string|null     $cachePath      This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
@@ -170,8 +164,6 @@ class i18n implements i18nInterface
      * initializes the class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @throws          \BadMethodCallException     if the object is already initialized
      * @throws          \RuntimeException           if no language file can be found
@@ -277,8 +269,6 @@ class i18n implements i18nInterface
      * return whether the class is initialized or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          bool
      */
@@ -291,8 +281,6 @@ class i18n implements i18nInterface
      * returns the applied language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          string
      */
@@ -305,8 +293,6 @@ class i18n implements i18nInterface
      * returns the cache path
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          string
      */
@@ -319,8 +305,6 @@ class i18n implements i18nInterface
      * returns the fallback language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          string
      */
@@ -333,8 +317,6 @@ class i18n implements i18nInterface
      * sets the path of the lanuage files
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $filePath   filepath to set
      * @return          void
@@ -349,8 +331,6 @@ class i18n implements i18nInterface
      * sets the path to the cache files
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $cachePath  cache path to set
      * @return          void
@@ -365,8 +345,6 @@ class i18n implements i18nInterface
      * sets a fallback language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.1.3-1944, 28.10.2019
-     * @since           1.1.3-1944, 28.10.2019, created
      * @copyright       tourasia
      * @param           string  $fallbackLang   language to set
      * @return          void
@@ -381,8 +359,6 @@ class i18n implements i18nInterface
      * whether to merge the fallback languages or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           bool    $mergeFallback  merge fallback language
      * @return          void
@@ -397,8 +373,6 @@ class i18n implements i18nInterface
      * sets the prefix for the result class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $prefix     prefix to set
      * @return          void
@@ -413,8 +387,6 @@ class i18n implements i18nInterface
      * sets a forced language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $forcedLang     forced language to set
      * @return          void
@@ -429,8 +401,6 @@ class i18n implements i18nInterface
      * sets as section separator
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string      $sectionSeparator       section separator to set
      * @return          void
@@ -455,8 +425,6 @@ class i18n implements i18nInterface
      * Note: duplicate values are deleted.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          array       with the user languages sorted by priority
      * @uses            self::$forcedLang
@@ -510,8 +478,6 @@ class i18n implements i18nInterface
      * returns the path to the configuration file
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string          $langcode           language code to use
      * @return          string
@@ -526,8 +492,6 @@ class i18n implements i18nInterface
      * loads the source file and returns it as an array
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string          $filename           file to load
      * @return          array
@@ -560,8 +524,6 @@ class i18n implements i18nInterface
      * recursively compiles an associative array to PHP code.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           array           $config         configuration to parse
      * @param           string          $prefix         prefix to use infront of the const
@@ -591,8 +553,6 @@ class i18n implements i18nInterface
      * checks if the class already has been initialized
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          void
      * @throws          \BadMethodCallException if the class is already initalized
