@@ -5,8 +5,6 @@
   * @package        tourBase
   * @subpackage     Core\i18n
   * @author         David Lienhard <david@t-error.ch>
-  * @version        1.0.0, 12.11.2020
-  * @since          1.0.0, 12.11.2020, created
   * @copyright      tourasia
 */
 
@@ -18,8 +16,6 @@ namespace DavidLienhard\i18n;
   * interface for i18n class
   *
   * @author         David Lienhard <david@t-error.ch>
-  * @version        1.0.0, 12.11.2020
-  * @since          1.0.0, 12.11.2020, created
   * @copyright      tourasia
 */
 interface i18nInterface
@@ -29,8 +25,6 @@ interface i18nInterface
      * The constructor sets all important settings. All params are optional, you can set the options via extra functions too.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string|null     $filePath       This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language.
      * @param           string|null     $cachePath      This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
@@ -49,8 +43,6 @@ interface i18nInterface
      * initializes the class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      */
     public function init();
@@ -59,8 +51,6 @@ interface i18nInterface
      * return whether the class is initialized or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          bool
      */
@@ -70,8 +60,6 @@ interface i18nInterface
      * returns the applied language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          string
      */
@@ -81,8 +69,6 @@ interface i18nInterface
      * returns the cache path
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          string
      */
@@ -92,8 +78,6 @@ interface i18nInterface
      * returns the fallback language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          string
      */
@@ -103,8 +87,6 @@ interface i18nInterface
      * sets the path of the lanuage files
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $filePath   filepath to set
      * @return          void
@@ -115,8 +97,6 @@ interface i18nInterface
      * sets the path to the cache files
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $cachePath  cache path to set
      * @return          void
@@ -127,8 +107,6 @@ interface i18nInterface
      * sets a fallback language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $fallbackLang   language to set
      * @return          void
@@ -139,8 +117,6 @@ interface i18nInterface
      * whether to merge the fallback languages or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           bool    $mergeFallback  merge fallback language
      * @return          void
@@ -151,8 +127,6 @@ interface i18nInterface
      * sets the prefix for the result class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $prefix     prefix to set
      * @return          void
@@ -163,8 +137,6 @@ interface i18nInterface
      * sets a forced language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string  $forcedLang     forced language to set
      * @return          void
@@ -175,8 +147,6 @@ interface i18nInterface
      * sets as section separator
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @param           string      $sectionSeparator       section separator to set
      * @return          void
@@ -195,8 +165,6 @@ interface i18nInterface
      * Note: duplicate values are deleted.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @version         1.0.0, 12.11.2020
-     * @since           1.0.0, 12.11.2020, created
      * @copyright       tourasia
      * @return          array       with the user languages sorted by priority
      */
