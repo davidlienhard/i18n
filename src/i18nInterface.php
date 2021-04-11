@@ -45,14 +45,13 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      */
-    public function init();
+    public function init(): void;
 
     /**
      * return whether the class is initialized or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          bool
      */
     public function isInitialized() : bool;
 
@@ -61,7 +60,6 @@ interface i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          string
      */
     public function getAppliedLang() : string;
 
@@ -70,7 +68,6 @@ interface i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          string
      */
     public function getCachePath() : string;
 
@@ -79,7 +76,6 @@ interface i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          string
      */
     public function getFallbackLang() : string;
 
@@ -89,9 +85,8 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $filePath   filepath to set
-     * @return          void
      */
-    public function setFilePath(string $filePath);
+    public function setFilePath(string $filePath): void;
 
     /**
      * sets the path to the cache files
@@ -99,9 +94,8 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $cachePath  cache path to set
-     * @return          void
      */
-    public function setCachePath(string $cachePath);
+    public function setCachePath(string $cachePath): void;
 
     /**
      * sets a fallback language
@@ -109,9 +103,8 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $fallbackLang   language to set
-     * @return          void
      */
-    public function setFallbackLang($fallbackLang);
+    public function setFallbackLang(string $fallbackLang): void;
 
     /**
      * whether to merge the fallback languages or not
@@ -119,9 +112,8 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           bool    $mergeFallback  merge fallback language
-     * @return          void
      */
-    public function setMergeFallback($mergeFallback);
+    public function setMergeFallback(bool $mergeFallback): void;
 
     /**
      * sets the prefix for the result class
@@ -129,9 +121,8 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $prefix     prefix to set
-     * @return          void
      */
-    public function setPrefix(string $prefix);
+    public function setPrefix(string $prefix): void;
 
     /**
      * sets a forced language
@@ -139,9 +130,8 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $forcedLang     forced language to set
-     * @return          void
      */
-    public function setForcedLang(string $forcedLang);
+    public function setForcedLang(string $forcedLang): void;
 
     /**
      * sets as section separator
@@ -149,9 +139,8 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string      $sectionSeparator       section separator to set
-     * @return          void
      */
-    public function setSectionSeparator(string $sectionSeparator);
+    public function setSectionSeparator(string $sectionSeparator): void;
 
     /**
      * getUserLangs()

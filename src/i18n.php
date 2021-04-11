@@ -26,57 +26,49 @@ class i18n implements i18nInterface
      * Language file path
      * This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language or the script wont find any language files.
      *
-     * @var     string      $filePath
      */
-    protected $filePath = "./lang/lang_{LANGUAGE}.ini";
+    protected string $filePath = "./lang/lang_{LANGUAGE}.ini";
 
     /**
      * Cache file path
      * This is the path for all the cache files. Best is an empty directory with no other files in it.
      *
-     * @var     string      $cachePath
      */
-    protected $cachePath = "./langcache/";
+    protected string $cachePath = "./langcache/";
 
     /**
      * Fallback language
      * This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
      * Remember to create a language file for the fallback!!
      *
-     * @var     string      $fallbackLang
      */
-    protected $fallbackLang = "en";
+    protected string $fallbackLang = "en";
 
     /**
      * Merge in fallback language
      * Whether to merge current language's strings with the strings of the fallback language ($fallbackLang).
      *
-     * @var     bool        $mergeFallback
      */
-    protected $mergeFallback = false;
+    protected bool $mergeFallback = false;
 
     /**
      * The class name of the compiled class that contains the translated texts.
-     * @var     string      $prefix
      */
-    protected $prefix = "L";
+    protected string $prefix = "L";
 
     /**
      * Forced language
      * If you want to force a specific language define it here.
-     *
-     * @var     string      $forcedLang
      */
-    protected $forcedLang = null;
+    protected string | null $forcedLang = null;
 
     /**
      * This is the separator used if you use sections in your ini-file.
      * For example, if you have a string 'greeting' in a section 'welcomepage' you will can access it via 'L::welcomepage_greeting'.
      * If you changed it to 'ABC' you could access your string via 'L::welcomepageABCgreeting'
      *
-     * @var     string      $sectionSeparator
      */
-    protected $sectionSeparator = "_";
+    protected string $sectionSeparator = "_";
 
 
     /*
@@ -94,35 +86,31 @@ class i18n implements i18nInterface
      *
      * @var     array       $userLangs
      */
-    protected $userLangs = [ ];
+    protected array $userLangs = [];
 
     /**
      * the language that has been applied after running the initialization
      *
-     * @var     string      $appliedLang
      */
-    protected $appliedLang = null;
+    protected string | null $appliedLang = null;
 
     /**
      * path to the language file that has been used
      *
-     * @var     string      $langFilePath
      */
-    protected $langFilePath = null;
+    protected string | null $langFilePath = null;
 
     /**
      * path to the cache file that has been used
      *
-     * @var     string      $cacheFilePath
      */
-    protected $cacheFilePath = null;
+    protected string | null $cacheFilePath = null;
 
     /**
      * whether the class has been initialized
      *
-     * @var     bool        $isInitialized
      */
-    protected $isInitialized = false;
+    protected bool $isInitialized = false;
 
 
     /**
@@ -183,7 +171,7 @@ class i18n implements i18nInterface
      * @uses            self::load()
      * @uses            self::compile()
      */
-    public function init()
+    public function init(): void
     {
         if ($this->isInitialized()) {
             throw new \BadMethodCallException(
@@ -238,12 +226,12 @@ class i18n implements i18nInterface
                 "class ".$this->prefix." implements i18nCacheInterface\n".
                 "{\n".
                 $this->compile($config)."\n".
-                "    public static function __callStatic(\$string, \$args)\n".
+                "    public static function __callStatic(string \$string, array \$args) : mixed\n".
                 "    {\n".
                 "        return vsprintf(constant(\"self::\".\$string), \$args);\n".
                 "    }\n".
                 "}\n\n".
-                "function ".$this->prefix."(\$string, \$args = null)\n".
+                "function ".$this->prefix."(string \$string, array | null \$args = null) : mixed\n".
                 "{\n".
                 "    \$return = constant(\"".$this->prefix."::\".\$string);\n".
                 "    return \$args ? vsprintf(\$return, \$args) : \$return;\n".
@@ -260,7 +248,7 @@ class i18n implements i18nInterface
             }
 
             chmod($this->cacheFilePath, 0755);
-        }
+        }//end if
 
         require_once $this->cacheFilePath;
     }
@@ -270,7 +258,6 @@ class i18n implements i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          bool
      */
     public function isInitialized() : bool
     {
@@ -282,7 +269,6 @@ class i18n implements i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          string
      */
     public function getAppliedLang() : string
     {
@@ -294,7 +280,6 @@ class i18n implements i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          string
      */
     public function getCachePath() : string
     {
@@ -306,7 +291,6 @@ class i18n implements i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          string
      */
     public function getFallbackLang() : string
     {
@@ -319,9 +303,8 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $filePath   filepath to set
-     * @return          void
      */
-    public function setFilePath(string $filePath)
+    public function setFilePath(string $filePath): void
     {
         $this->fail_after_init();
         $this->filePath = $filePath;
@@ -333,9 +316,8 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $cachePath  cache path to set
-     * @return          void
      */
-    public function setCachePath(string $cachePath)
+    public function setCachePath(string $cachePath): void
     {
         $this->fail_after_init();
         $this->cachePath = $cachePath;
@@ -347,9 +329,8 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $fallbackLang   language to set
-     * @return          void
      */
-    public function setFallbackLang($fallbackLang)
+    public function setFallbackLang(string $fallbackLang): void
     {
         $this->fail_after_init();
         $this->fallbackLang = $fallbackLang;
@@ -361,9 +342,8 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           bool    $mergeFallback  merge fallback language
-     * @return          void
      */
-    public function setMergeFallback($mergeFallback)
+    public function setMergeFallback(bool $mergeFallback): void
     {
         $this->fail_after_init();
         $this->mergeFallback = $mergeFallback;
@@ -375,9 +355,8 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $prefix     prefix to set
-     * @return          void
      */
-    public function setPrefix(string $prefix)
+    public function setPrefix(string $prefix): void
     {
         $this->fail_after_init();
         $this->prefix = $prefix;
@@ -389,9 +368,8 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string  $forcedLang     forced language to set
-     * @return          void
      */
-    public function setForcedLang(string $forcedLang)
+    public function setForcedLang(string $forcedLang): void
     {
         $this->fail_after_init();
         $this->forcedLang = $forcedLang;
@@ -403,11 +381,10 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string      $sectionSeparator       section separator to set
-     * @return          void
      * @uses            self::fail_after_init()
      * @uses            self::$sectionSeparator
      */
-    public function setSectionSeparator(string $sectionSeparator)
+    public function setSectionSeparator(string $sectionSeparator): void
     {
         $this->fail_after_init();
         $this->sectionSeparator = $sectionSeparator;
@@ -432,7 +409,7 @@ class i18n implements i18nInterface
      */
     public function getUserLangs() : array
     {
-        $userLangs = [ ];
+        $userLangs = [];
 
         // Highest priority: forced language
         if ($this->forcedLang != null) {
@@ -463,7 +440,7 @@ class i18n implements i18nInterface
         $userLangs = array_unique($userLangs);
 
         // remove illegal userLangs
-        $userLangs2 = [ ];
+        $userLangs2 = [];
         foreach ($userLangs as $key => $value) {
             // only allow a-z, A-Z and 0-9 and _ and -
             if (preg_match("/^[a-zA-Z0-9_-]*\$/", $value) === 1) {
@@ -480,7 +457,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string          $langcode           language code to use
-     * @return          string
      * @uses            self::$filePath
      */
     protected function getConfigFilename(string $langcode) : string
@@ -527,7 +503,6 @@ class i18n implements i18nInterface
      * @copyright       tourasia
      * @param           array           $config         configuration to parse
      * @param           string          $prefix         prefix to use infront of the const
-     * @return          string
      * @throws          \InvalidArgumentException
      */
     protected function compile(array $config, string $prefix = "") : string
@@ -540,7 +515,7 @@ class i18n implements i18nInterface
                 $fullName = $prefix.$key;
                 if (!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\$/", $fullName)) {
                     throw new \InvalidArgumentException(
-                        __CLASS__ . ": Cannot compile translation key ".$fullName." because it is not a valid PHP identifier."
+                        __CLASS__.": Cannot compile translation key ".$fullName." because it is not a valid PHP identifier."
                     );
                 }
                 $code .= "    const ".$fullName." = '".str_replace("'", "\\'", strval($value))."';\n";
@@ -554,11 +529,10 @@ class i18n implements i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
-     * @return          void
      * @throws          \BadMethodCallException if the class is already initalized
      * @uses            self::$isInitialized
      */
-    protected function fail_after_init()
+    protected function fail_after_init(): void
     {
         if ($this->isInitialized()) {
             throw new \BadMethodCallException("This ".__CLASS__." object is already initalized, so you can not change any settings.");

@@ -25,7 +25,7 @@ interface i18nCacheInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      * @param           string          $string         name of the property to call
-     * @param           string          $args           arguments for translation
+     * @param           array           $args           arguments for translation
      */
-    public static function __callStatic($string, $args);
+    public static function __callStatic(string $string, array | null $args) : void;
 }
