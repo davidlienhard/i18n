@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d20827593cf69bade6c5b14104bbe8bb",
+    "content-hash": "57a01f7a43f2c262801ea9973a03d668",
     "packages": [],
     "packages-dev": [
         {
@@ -16,10 +16,10 @@
                 "reference": "eaee24ce6e83cd9c82a1df6f7cf33c2105c3786a"
             },
             "dist": {
-                "type": "tar",
-                "url": "https://packages.tourbase.ch/dist/davidlienhard/coding-standard/davidlienhard-coding-standard-eaee24ce6e83cd9c82a1df6f7cf33c2105c3786a-zip-89543f.tar",
+                "type": "zip",
+                "url": "https://api.github.com/repos/davidlienhard/coding-standard/zipball/eaee24ce6e83cd9c82a1df6f7cf33c2105c3786a",
                 "reference": "eaee24ce6e83cd9c82a1df6f7cf33c2105c3786a",
-                "shasum": "e765b29aa23f3fc33f85cfff761a990ac98080cf"
+                "shasum": ""
             },
             "require": {
                 "php": "^8.0",
@@ -27,11 +27,7 @@
                 "squizlabs/php_codesniffer": "^3"
             },
             "type": "phpcodesniffer-standard",
-            "scripts": {
-                "changed-files": [
-                    "git diff --name-only origin/master"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
                     "name": "David Lienhard",
@@ -42,12 +38,12 @@
             ],
             "description": "DavidLienhard PHPCS Coding Standard",
             "keywords": [
-                "CodeSniffer",
+                "codesniffer",
                 "phpcs"
             ],
             "support": {
-                "source": "https://github.com/davidlienhard/coding-standard",
-                "issues": "https://github.com/davidlienhard/coding-standard/issues"
+                "issues": "https://github.com/davidlienhard/coding-standard/issues",
+                "source": "https://github.com/davidlienhard/coding-standard"
             },
             "time": "2021-04-13T05:24:23+00:00"
         },

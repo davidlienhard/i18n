@@ -17,12 +17,6 @@
         "issues": "https://github.com/davidlienhard/i18n/issues/",
         "email": "david.lienhard@tourasia.ch"
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.tourbase.ch"
-        }
-    ],
     "require": {
         "php": "^8.0"
     },
