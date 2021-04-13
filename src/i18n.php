@@ -25,14 +25,12 @@ class i18n implements i18nInterface
     /**
      * Language file path
      * This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language or the script wont find any language files.
-     *
      */
     protected string $filePath = "./lang/lang_{LANGUAGE}.ini";
 
     /**
      * Cache file path
      * This is the path for all the cache files. Best is an empty directory with no other files in it.
-     *
      */
     protected string $cachePath = "./langcache/";
 
@@ -40,33 +38,28 @@ class i18n implements i18nInterface
      * Fallback language
      * This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
      * Remember to create a language file for the fallback!!
-     *
      */
     protected string $fallbackLang = "en";
 
     /**
      * Merge in fallback language
      * Whether to merge current language's strings with the strings of the fallback language ($fallbackLang).
-     *
      */
     protected bool $mergeFallback = false;
 
-    /**
-     * The class name of the compiled class that contains the translated texts.
-     */
+    /** The class name of the compiled class that contains the translated texts. */
     protected string $prefix = "L";
 
     /**
      * Forced language
      * If you want to force a specific language define it here.
      */
-    protected string | null $forcedLang = null;
+    protected string|null $forcedLang = null;
 
     /**
      * This is the separator used if you use sections in your ini-file.
      * For example, if you have a string 'greeting' in a section 'welcomepage' you will can access it via 'L::welcomepage_greeting'.
      * If you changed it to 'ABC' you could access your string via 'L::welcomepageABCgreeting'
-     *
      */
     protected string $sectionSeparator = "_";
 
@@ -88,28 +81,17 @@ class i18n implements i18nInterface
      */
     protected array $userLangs = [];
 
-    /**
-     * the language that has been applied after running the initialization
-     *
+    /** the language that has been applied after running the initialization
      */
-    protected string | null $appliedLang = null;
+    protected string|null $appliedLang = null;
 
-    /**
-     * path to the language file that has been used
-     *
-     */
-    protected string | null $langFilePath = null;
+    /** path to the language file that has been used */
+    protected string|null $langFilePath = null;
 
-    /**
-     * path to the cache file that has been used
-     *
-     */
-    protected string | null $cacheFilePath = null;
+    /** path to the cache file that has been used */
+    protected string|null $cacheFilePath = null;
 
-    /**
-     * whether the class has been initialized
-     *
-     */
+    /** whether the class has been initialized */
     protected bool $isInitialized = false;
 
 
@@ -131,19 +113,19 @@ class i18n implements i18nInterface
      */
     public function __construct(string $filePath = null, string $cachePath = null, string $fallbackLang = null, string $prefix = null)
     {
-        if ($filePath != null) {
+        if ($filePath !== null) {
             $this->filePath = $filePath;
         }
 
-        if ($cachePath != null) {
+        if ($cachePath !== null) {
             $this->cachePath = $cachePath;
         }
 
-        if ($fallbackLang != null) {
+        if ($fallbackLang !== null) {
             $this->fallbackLang = $fallbackLang;
         }
 
-        if ($prefix != null) {
+        if ($prefix !== null) {
             $this->prefix = $prefix;
         }
     }
@@ -193,7 +175,7 @@ class i18n implements i18nInterface
             }
         }
 
-        if ($this->appliedLang == null) {
+        if ($this->appliedLang === null) {
             throw new \RuntimeException(
                 "No language file was found."
             );
@@ -412,7 +394,7 @@ class i18n implements i18nInterface
         $userLangs = [];
 
         // Highest priority: forced language
-        if ($this->forcedLang != null) {
+        if ($this->forcedLang !== null) {
             $userLangs[] = $this->forcedLang;
         }
 
