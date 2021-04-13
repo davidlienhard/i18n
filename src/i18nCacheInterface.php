@@ -27,5 +27,5 @@ interface i18nCacheInterface
      * @param           string          $string         name of the property to call
      * @param           array           $args           arguments for translation
      */
-    public static function __callStatic(string $string, array|null $args) : void;
+    public static function __callStatic(string $string, array|null $args) : mixed;
 }
