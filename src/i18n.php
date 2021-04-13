@@ -226,7 +226,7 @@ class i18n implements i18nInterface
                 "class ".$this->prefix." implements i18nCacheInterface\n".
                 "{\n".
                 $this->compile($config)."\n".
-                "    public static function __callStatic(string \$string, array \$args) : mixed\n".
+                "    public static function __callStatic(string \$string, array | null \$args) : mixed\n".
                 "    {\n".
                 "        return vsprintf(constant(\"self::\".\$string), \$args);\n".
                 "    }\n".
