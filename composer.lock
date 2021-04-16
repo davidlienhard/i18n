@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "davidlienhard/coding-standard",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davidlienhard/coding-standard.git",
-                "reference": "eaee24ce6e83cd9c82a1df6f7cf33c2105c3786a"
+                "reference": "03f8f2e6a78c2826637fdc01d779682f941c051e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davidlienhard/coding-standard/zipball/eaee24ce6e83cd9c82a1df6f7cf33c2105c3786a",
-                "reference": "eaee24ce6e83cd9c82a1df6f7cf33c2105c3786a",
+                "url": "https://api.github.com/repos/davidlienhard/coding-standard/zipball/03f8f2e6a78c2826637fdc01d779682f941c051e",
+                "reference": "03f8f2e6a78c2826637fdc01d779682f941c051e",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "issues": "https://github.com/davidlienhard/coding-standard/issues",
                 "source": "https://github.com/davidlienhard/coding-standard"
             },
-            "time": "2021-04-13T05:24:23+00:00"
+            "time": "2021-04-13T07:09:59+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
