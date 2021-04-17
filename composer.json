@@ -1,6 +1,6 @@
 {
     "name": "davidlienhard/i18n",
-    "license": "proprietary",
+    "license": ["MIT"],
     "description": "🐘 php library to use for internationalization",
     "keywords": [ "internationalization", "i18n", "php", "library" ],
     "type": "libary",
