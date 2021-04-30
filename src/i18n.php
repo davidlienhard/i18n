@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace DavidLienhard\i18n;
 
-use \DavidLienhard\i18n\i18nInterface;
+use DavidLienhard\i18n\i18nInterface;
 
 /**
  * class for internationalization
