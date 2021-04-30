@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "davidlienhard/coding-standard",
-            "version": "1.0.2",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davidlienhard/coding-standard.git",
-                "reference": "03f8f2e6a78c2826637fdc01d779682f941c051e"
+                "reference": "fef1fa0ec33d0cde446ffba9179d63a8300f799d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davidlienhard/coding-standard/zipball/03f8f2e6a78c2826637fdc01d779682f941c051e",
-                "reference": "03f8f2e6a78c2826637fdc01d779682f941c051e",
+                "url": "https://api.github.com/repos/davidlienhard/coding-standard/zipball/fef1fa0ec33d0cde446ffba9179d63a8300f799d",
+                "reference": "fef1fa0ec33d0cde446ffba9179d63a8300f799d",
                 "shasum": ""
             },
             "require": {
@@ -28,11 +28,14 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "David Lienhard",
-                    "email": "david.lienhard@tourasia.ch",
-                    "homepage": "http://www.tourasia.ch/",
+                    "email": "github@lienhard.win",
+                    "homepage": "http://www.lienhard.win/",
                     "role": "Developer"
                 }
             ],
@@ -45,7 +48,7 @@
                 "issues": "https://github.com/davidlienhard/coding-standard/issues",
                 "source": "https://github.com/davidlienhard/coding-standard"
             },
-            "time": "2021-04-13T07:09:59+00:00"
+            "time": "2021-04-29T10:29:25+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
@@ -229,16 +232,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "7.0.1",
+            "version": "7.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "08580348e8bb68a36c8753d3db6ba816089129e6"
+                "reference": "cad651ba4920b4fe458cd38b76a87a6f4a18f64f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/08580348e8bb68a36c8753d3db6ba816089129e6",
-                "reference": "08580348e8bb68a36c8753d3db6ba816089129e6",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/cad651ba4920b4fe458cd38b76a87a6f4a18f64f",
+                "reference": "cad651ba4920b4fe458cd38b76a87a6f4a18f64f",
                 "shasum": ""
             },
             "require": {
@@ -250,7 +253,7 @@
             "require-dev": {
                 "phing/phing": "2.16.4",
                 "php-parallel-lint/php-parallel-lint": "1.3.0",
-                "phpstan/phpstan": "0.12.83",
+                "phpstan/phpstan": "0.12.85",
                 "phpstan/phpstan-deprecation-rules": "0.12.6",
                 "phpstan/phpstan-phpunit": "0.12.18",
                 "phpstan/phpstan-strict-rules": "0.12.9",
@@ -274,7 +277,7 @@
             "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
             "support": {
                 "issues": "https://github.com/slevomat/coding-standard/issues",
-                "source": "https://github.com/slevomat/coding-standard/tree/7.0.1"
+                "source": "https://github.com/slevomat/coding-standard/tree/7.0.6"
             },
             "funding": [
                 {
@@ -286,7 +289,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-09T12:43:58+00:00"
+            "time": "2021-04-27T16:34:01+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
