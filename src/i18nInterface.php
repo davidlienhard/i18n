@@ -61,7 +61,7 @@ interface i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      */
-    public function getAppliedLang() : string;
+    public function getAppliedLang() : string|null;
 
     /**
      * returns the cache path
