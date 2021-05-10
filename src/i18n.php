@@ -87,8 +87,7 @@ class i18n implements i18nInterface
      */
     protected array $userLangs = [];
 
-    /** the language that has been applied after running the initialization
-     */
+    /** the language that has been applied after running the initialization */
     protected string|null $appliedLang = null;
 
     /** path to the language file that has been used */
@@ -188,14 +187,15 @@ class i18n implements i18nInterface
         // search for language file
         $this->appliedLang = null;
         foreach ($this->userLangs as $priority => $langcode) {
-            $this->langFilePath = $this->getConfigFilename($langcode);
+            $langFilePath = $this->getConfigFilename($langcode);
             if ($this->filesystem->fileExists($this->langFilePath)) {
+                $this->langFilePath = $langFilePath;
                 $this->appliedLang = $langcode;
                 break;
             }
         }
 
-        if ($this->appliedLang === null) {
+        if ($this->appliedLang === null || $this->langFilePath === null) {
             throw new \RuntimeException(
                 "No language file was found."
             );
@@ -286,7 +286,7 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       tourasia
      */
-    public function getAppliedLang() : string
+    public function getAppliedLang() : string|null
     {
         return $this->appliedLang;
     }
@@ -491,8 +491,8 @@ class i18n implements i18nInterface
      */
     protected function load(string $filename) : array
     {
-        $ext = substr(strrchr($filename, "."), 1);
-        switch ($ext) {
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        switch ($extension) {
             case "properties":
             case "ini":
                 $config = parse_ini_file($filename, true);
@@ -515,7 +515,7 @@ class i18n implements i18nInterface
                 break;
             default:
                 throw new \InvalidArgumentException(
-                    $ext." is not a valid extension!"
+                    $extension." is not a valid extension!"
                 );
         }//end switch
         return $config;
