@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * contains a i18n class
  *
@@ -7,8 +8,6 @@
  * @author          David Lienhard <david@t-error.ch>
  * @copyright       tourasia
  */
-
-declare(strict_types=1);
 
 namespace DavidLienhard\i18n;
 
