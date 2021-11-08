@@ -40,7 +40,8 @@
         "coverage": "docker run --rm -v${PWD}:/srv/app ghcr.io/davidlienhard/tourbase-coverage",
         "test": [
             "@phpunit",
-            "@phpcs"
+            "@phpcs",
+            "@phpstan"
         ]
     }
 }
