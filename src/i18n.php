@@ -12,6 +12,7 @@
 namespace DavidLienhard\i18n;
 
 use DavidLienhard\i18n\i18nInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * class for internationalization
@@ -464,7 +465,7 @@ class i18n implements i18nInterface
                 break;
             case "yml":
             case "yaml":
-                $config = spyc_load_file($filename);
+                $config = Yaml::parse(file_get_contents($filename) ?: "") ;
                 break;
             case "json":
                 $config = json_decode(file_get_contents($filename), true);
