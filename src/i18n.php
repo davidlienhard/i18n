@@ -474,6 +474,11 @@ class i18n implements i18nInterface
                     $extension." is not a valid extension!"
                 );
         }
+
+        if (!is_array($config)) {
+            throw new \Exception("unable to parse language files");
+        }
+
         return $config;
     }
 
