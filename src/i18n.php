@@ -468,13 +468,18 @@ class i18n implements i18nInterface
                 $config = Yaml::parse(file_get_contents($filename) ?: "") ;
                 break;
             case "json":
-                $config = json_decode(file_get_contents($filename), true);
+                $config = json_decode(file_get_contents($filename) ?: "", true, JSON_THROW_ON_ERROR);
                 break;
             default:
                 throw new \InvalidArgumentException(
                     $extension." is not a valid extension!"
                 );
         }
+
+        if (!is_array($config)) {
+            throw new \Exception("unable to parse language files");
+        }
+
         return $config;
     }
 
