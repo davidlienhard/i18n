@@ -28,4 +28,14 @@ interface i18nCacheInterface
      * @param           array           $args           arguments for translation
      */
     public static function __callStatic(string $string, array|null $args) : mixed;
+
+    /**
+     * used to get properties set in the class
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       tourasia
+     * @param           string          $string         name of the property to call
+     * @param           array|null      $args           arguments for translation
+     */
+    public static function get(string $string, array|null $args = null) : mixed;
 }
