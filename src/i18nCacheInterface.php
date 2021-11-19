@@ -33,7 +33,7 @@ interface i18nCacheInterface
      * used to get properties set in the class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string          $string         name of the property to call
      * @param           array|null      $args           arguments for translation
      */
