@@ -93,6 +93,9 @@ class i18n implements i18nInterface
     /** whether the class has been initialized */
     protected bool $isInitialized = false;
 
+    /** optional namespace to use in created class */
+    protected string|null $namespace = null;
+
 
     /**
      * Constructor
@@ -204,6 +207,7 @@ class i18n implements i18nInterface
 
             $compiled = "<?php\n".
                 "declare(strict_types=1);\n\n".
+                ($this->namespace !== null ? "namespace ".$this->namespace.";\n\n" : "").
                 "use \\DavidLienhard\\i18n\\i18nCacheInterface;\n\n".
                 "class ".$this->prefix." implements i18nCacheInterface\n".
                 "{\n".
@@ -431,6 +435,20 @@ class i18n implements i18nInterface
         }
 
         return $userLangs2;
+    }
+
+    /**
+     * sets the namespace for the class
+     * null means no namespace
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       tourasia
+     * @param           string|null $namespace              namespace to set
+     * @uses            self::$namespace
+     */
+    public function setNamespace(string|null $namespace) : void
+    {
+        $this->namespace = $namespace;
     }
 
     /**
