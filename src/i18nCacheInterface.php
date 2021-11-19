@@ -23,7 +23,7 @@ interface i18nCacheInterface
      * calls the static properties set in the class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string          $string         name of the property to call
      * @param           array           $args           arguments for translation
      */
