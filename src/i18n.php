@@ -6,7 +6,7 @@
  * @package         tourBase
  * @subpackage      Core\i18n
  * @author          David Lienhard <david@t-error.ch>
- * @copyright       tourasia
+ * @copyright       David Lienhard
  */
 
 namespace DavidLienhard\i18n;
@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
  * class for internationalization
  *
  * @author          David Lienhard <david@t-error.ch>
- * @copyright       tourasia
+ * @copyright       David Lienhard
  */
 class i18n implements i18nInterface
 {
@@ -102,7 +102,7 @@ class i18n implements i18nInterface
      * The constructor sets all important settings. All params are optional, you can set the options via extra functions too.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string|null     $filePath       This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language.
      * @param           string|null     $cachePath      This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
      * @param           string|null     $fallbackLang   This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
@@ -136,7 +136,7 @@ class i18n implements i18nInterface
      * initializes the class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @throws          \BadMethodCallException     if the object is already initialized
      * @throws          \RuntimeException           if no language file can be found
      * @throws          \Exception                  if the cache-file could ne be created
@@ -249,7 +249,7 @@ class i18n implements i18nInterface
      * return whether the class is initialized or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      */
     public function isInitialized() : bool
     {
@@ -260,7 +260,7 @@ class i18n implements i18nInterface
      * returns the applied language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      */
     public function getAppliedLang() : string|null
     {
@@ -271,7 +271,7 @@ class i18n implements i18nInterface
      * returns the cache path
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      */
     public function getCachePath() : string
     {
@@ -282,7 +282,7 @@ class i18n implements i18nInterface
      * returns the fallback language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      */
     public function getFallbackLang() : string
     {
@@ -293,7 +293,7 @@ class i18n implements i18nInterface
      * sets the path of the lanuage files
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $filePath   filepath to set
      */
     public function setFilePath(string $filePath): void
@@ -306,7 +306,7 @@ class i18n implements i18nInterface
      * sets the path to the cache files
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $cachePath  cache path to set
      */
     public function setCachePath(string $cachePath): void
@@ -319,7 +319,7 @@ class i18n implements i18nInterface
      * sets a fallback language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $fallbackLang   language to set
      */
     public function setFallbackLang(string $fallbackLang): void
@@ -332,7 +332,7 @@ class i18n implements i18nInterface
      * whether to merge the fallback languages or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           bool    $mergeFallback  merge fallback language
      */
     public function setMergeFallback(bool $mergeFallback): void
@@ -345,7 +345,7 @@ class i18n implements i18nInterface
      * sets the prefix for the result class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $prefix     prefix to set
      */
     public function setPrefix(string $prefix): void
@@ -358,7 +358,7 @@ class i18n implements i18nInterface
      * sets a forced language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $forcedLang     forced language to set
      */
     public function setForcedLang(string $forcedLang): void
@@ -371,7 +371,7 @@ class i18n implements i18nInterface
      * sets as section separator
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string      $sectionSeparator       section separator to set
      * @uses            self::fail_after_init()
      * @uses            self::$sectionSeparator
@@ -394,7 +394,7 @@ class i18n implements i18nInterface
      * Note: duplicate values are deleted.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @return          array       with the user languages sorted by priority
      * @uses            self::$forcedLang
      * @uses            self::$fallbackLang
@@ -448,7 +448,7 @@ class i18n implements i18nInterface
      * null means no namespace
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string|null $namespace              namespace to set
      * @uses            self::$namespace
      */
@@ -461,7 +461,7 @@ class i18n implements i18nInterface
      * returns the path to the configuration file
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string          $langcode           language code to use
      * @uses            self::$filePath
      */
@@ -474,7 +474,7 @@ class i18n implements i18nInterface
      * loads the source file and returns it as an array
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string          $filename           file to load
      * @return          array
      * @throws          \InvalidArgumentException           if the extenstion of the given file is not supported
@@ -511,7 +511,7 @@ class i18n implements i18nInterface
      * recursively compiles an associative array to PHP code.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           array           $config         configuration to parse
      * @param           string          $prefix         prefix to use infront of the const
      * @throws          \InvalidArgumentException
@@ -539,7 +539,7 @@ class i18n implements i18nInterface
      * checks if the class already has been initialized
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @throws          \BadMethodCallException if the class is already initalized
      * @uses            self::$isInitialized
      */
