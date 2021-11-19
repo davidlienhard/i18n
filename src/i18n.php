@@ -214,13 +214,19 @@ class i18n implements i18nInterface
                 $this->compile($config)."\n".
                 "    public static function __callStatic(string \$string, array | null \$args) : mixed\n".
                 "    {\n".
-                "        return vsprintf(constant(\"self::\".\$string), \$args);\n".
+                "        return \\vsprintf(constant(\"self::\".\$string), \$args);\n".
+                "    }\n\n".
+                "    public static function get(string \$string, array | null \$args = null) : mixed\n".
+                "    {\n".
+                "        \$return = \\constant(\"self::\".\$string);\n".
+                "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
                 "    }\n".
                 "}\n\n".
                 "function ".$this->prefix."(string \$string, array | null \$args = null) : mixed\n".
                 "{\n".
-                "    \$return = constant(\"".$this->prefix."::\".\$string);\n".
-                "    return \$args ? vsprintf(\$return, \$args) : \$return;\n".
+                "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\");\n".
+                "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
+                "    return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
                 "}";
 
             if (!is_dir($this->cachePath)) {
