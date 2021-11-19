@@ -157,4 +157,14 @@ interface i18nInterface
      * @return          array       with the user languages sorted by priority
      */
     public function getUserLangs() : array;
+
+    /**
+     * sets the namespace for the class
+     * null means no namespace
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       tourasia
+     * @param           string|null $namespace              namespace to set
+     */
+    public function setNamespace(string|null $namespace) : void;
 }
