@@ -230,7 +230,10 @@ class i18n implements i18nInterface
                 "}";
 
             if (!is_dir($this->cachePath)) {
-                mkdir($this->cachePath, 0755, true);
+                mkdir(
+                    directory: $this->cachePath,
+                    recursive: true
+               ) ;
             }
 
             if (file_put_contents($this->cacheFilePath, $compiled) === false) {
