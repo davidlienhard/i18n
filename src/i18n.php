@@ -217,12 +217,7 @@ class i18n implements i18nInterface
             );
         }
 
-        // whether we need to create a new cache file
-        $outdated = !$this->filesystem->fileExists($this->cacheFilePath)
-            || $this->filesystem->lastModified($this->cacheFilePath) < $this->filesystem->lastModified($this->langFilePath) // the language config was updated
-            || ($this->mergeFallback && $this->filesystem->lastModified($this->cacheFilePath) < $this->filesystem->lastModified($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
-
-        if ($outdated) {
+        if ($this->isOutdated()) {
             $config = $this->load($this->langFilePath);
             if ($this->mergeFallback) {
                 $config = array_replace_recursive($this->load($this->getConfigFilename($this->fallbackLang)), $config);
