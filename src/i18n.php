@@ -224,7 +224,7 @@ class i18n implements i18nInterface
                 "}\n\n".
                 "function ".$this->prefix."(string \$string, array | null \$args = null) : mixed\n".
                 "{\n".
-                "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\");\n".
+                "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
                 "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
                 "    return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
                 "}";
