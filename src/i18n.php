@@ -200,29 +200,7 @@ class i18n implements i18nInterface
                 $config = array_replace_recursive($this->load($this->getConfigFilename($this->fallbackLang)), $config);
             }
 
-            $compiled = "<?php\n".
-                "declare(strict_types=1);\n\n".
-                ($this->namespace !== null ? "namespace ".$this->namespace.";\n\n" : "").
-                "use \\DavidLienhard\\i18n\\i18nCacheInterface;\n\n".
-                "class ".$this->prefix." implements i18nCacheInterface\n".
-                "{\n".
-                $this->compile($config)."\n".
-                "    public static function __callStatic(string \$string, array | null \$args) : mixed\n".
-                "    {\n".
-                "        return \\vsprintf(constant(\"self::\".\$string), \$args);\n".
-                "    }\n\n".
-                "    public static function get(string \$string, array | null \$args = null) : mixed\n".
-                "    {\n".
-                "        \$return = \\constant(\"self::\".\$string);\n".
-                "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
-                "    }\n".
-                "}\n\n".
-                "function ".$this->prefix."(string \$string, array | null \$args = null) : mixed\n".
-                "{\n".
-                "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
-                "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
-                "    return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
-                "}";
+            $compiled = $this->createCacheFile($config);
 
             if (!is_dir($this->cachePath)) {
                 mkdir(directory: $this->cachePath, recursive: true);
@@ -559,5 +537,40 @@ class i18n implements i18nInterface
         return !file_exists($cacheFilePath)
             || filemtime($cacheFilePath) < filemtime($langFilePath) // the language config was updated
             || ($this->mergeFallback && filemtime($cacheFilePath) < filemtime($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
+    }
+
+    /**
+     * creates the contents of the cache file
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     * @param           array           $config         configuration to use to vreate the file
+     */
+    protected function createCacheFile(array $config) : string
+    {
+        return
+            "<?php\n".
+            "declare(strict_types=1);\n\n".
+            ($this->namespace !== null ? "namespace ".$this->namespace.";\n\n" : "").
+            "use \\DavidLienhard\\i18n\\i18nCacheInterface;\n\n".
+            "class ".$this->prefix." implements i18nCacheInterface\n".
+            "{\n".
+            $this->compile($config)."\n".
+            "    public static function __callStatic(string \$string, array | null \$args) : mixed\n".
+            "    {\n".
+            "        return \\vsprintf(constant(\"self::\".\$string), \$args);\n".
+            "    }\n\n".
+            "    public static function get(string \$string, array | null \$args = null) : mixed\n".
+            "    {\n".
+            "        \$return = \\constant(\"self::\".\$string);\n".
+            "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "    }\n".
+            "}\n\n".
+            "function ".$this->prefix."(string \$string, array | null \$args = null) : mixed\n".
+            "{\n".
+            "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
+            "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
+            "    return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "}";
     }
 }
