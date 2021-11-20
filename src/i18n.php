@@ -491,32 +491,14 @@ class i18n implements i18nInterface
         switch ($extension) {
             case "properties":
             case "ini":
-                $config = parse_ini_file($filename, true);
+                $config = \parse_ini_file($filename, true);
                 break;
             case "yml":
             case "yaml":
-                try {
-                    $fileContent = $this->filesystem->read($filename);
-                } catch (FilesystemException | UnableToReadFile $e) {
-                    throw new \Exception(
-                        "unable to read language file '".$filename."'",
-                        intval($e->getCode()),
-                        $e
-                    );
-                }
-                $config = Yaml::parse($fileContent) ;
+                $config = Yaml::parse($this->getFileContents($filename)) ;
                 break;
             case "json":
-                try {
-                    $fileContent = $this->filesystem->read($filename);
-                } catch (FilesystemException | UnableToReadFile $e) {
-                    throw new \Exception(
-                        "unable to read language file '".$filename."'",
-                        intval($e->getCode()),
-                        $e
-                    );
-                }
-                $config = \json_decode($fileContent, true);
+                $config = \json_decode($this->getFileContents($filename), true);
                 break;
             default:
                 throw new \InvalidArgumentException(
@@ -641,6 +623,26 @@ class i18n implements i18nInterface
                 $this->appliedLang = $langcode;
                 break;
             }
+        }
+    }
+
+    /**
+     * returns the content of the given file
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     * @param           string          $filename       path to the file to read
+     */
+    protected function getFileContents(string $filename) : string
+    {
+        try {
+            return $this->filesystem->read($filename);
+        } catch (FilesystemException | UnableToReadFile $e) {
+            throw new \Exception(
+                "unable to read language file '".$filename."'",
+                intval($e->getCode()),
+                $e
+            );
         }
     }
 }
