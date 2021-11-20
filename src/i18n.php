@@ -1,14 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * contains a i18n class
  *
  * @package         tourBase
  * @subpackage      Core\i18n
  * @author          David Lienhard <david@t-error.ch>
- * @copyright       tourasia
+ * @copyright       David Lienhard
  */
-
-declare(strict_types=1);
 
 namespace DavidLienhard\i18n;
 
@@ -19,15 +18,21 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\UnableToCreateDirectory;
 use League\Flysystem\UnableToReadFile;
 use League\Flysystem\UnableToWriteFile;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * class for internationalization
  *
  * @author          David Lienhard <david@t-error.ch>
- * @copyright       tourasia
+ * @copyright       David Lienhard
  */
 class i18n implements i18nInterface
 {
+    /**
+     * current version number of this library
+     */
+    protected string $version = "1.0.6";
+
     /**
      * Language file path
      * This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language or the script wont find any language files.
@@ -99,6 +104,9 @@ class i18n implements i18nInterface
     /** whether the class has been initialized */
     protected bool $isInitialized = false;
 
+    /** optional namespace to use in created class */
+    protected string|null $namespace = null;
+
     /* filesystem to use */
     private Filesystem $filesystem;
 
@@ -108,7 +116,7 @@ class i18n implements i18nInterface
      * The constructor sets all important settings. All params are optional, you can set the options via extra functions too.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string|null     $filePath       This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language.
      * @param           string|null     $cachePath      This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
      * @param           string|null     $fallbackLang   This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
@@ -152,7 +160,7 @@ class i18n implements i18nInterface
      * initializes the class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @throws          \BadMethodCallException     if the object is already initialized
      * @throws          \RuntimeException           if no language file can be found
      * @throws          \Exception                  if the cache-file could ne be created
@@ -202,7 +210,10 @@ class i18n implements i18nInterface
         }
 
         // search for cache file
-        $this->cacheFilePath = $this->cachePath."/i18n_".md5($this->langFilePath)."_".$this->prefix."_".$this->appliedLang.".cache.php";
+        $this->cacheFilePath = $this->cachePath."/i18n_".
+            md5($this->langFilePath.$this->version)."_".
+            $this->prefix."_".
+            $this->appliedLang.".cache.php";
 
         // create cache path if necessary
         try {
@@ -226,22 +237,7 @@ class i18n implements i18nInterface
                 $config = array_replace_recursive($this->load($this->getConfigFilename($this->fallbackLang)), $config);
             }
 
-            $compiled = "<?php\n".
-                "declare(strict_types=1);\n\n".
-                "use \\DavidLienhard\\i18n\\i18nCacheInterface;\n\n".
-                "class ".$this->prefix." implements i18nCacheInterface\n".
-                "{\n".
-                $this->compile($config)."\n".
-                "    public static function __callStatic(string \$string, array | null \$args) : mixed\n".
-                "    {\n".
-                "        return vsprintf(constant(\"self::\".\$string), \$args);\n".
-                "    }\n".
-                "}\n\n".
-                "function ".$this->prefix."(string \$string, array | null \$args = null) : mixed\n".
-                "{\n".
-                "    \$return = constant(\"".$this->prefix."::\".\$string);\n".
-                "    return \$args ? vsprintf(\$return, \$args) : \$return;\n".
-                "}";
+            $compiled = $this->createCacheFile($config);
 
             if (!$this->filesystem->fileExists($this->cachePath)) {
                 try {
@@ -273,7 +269,7 @@ class i18n implements i18nInterface
      * return whether the class is initialized or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      */
     public function isInitialized() : bool
     {
@@ -284,7 +280,7 @@ class i18n implements i18nInterface
      * returns the applied language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      */
     public function getAppliedLang() : string|null
     {
@@ -295,7 +291,7 @@ class i18n implements i18nInterface
      * returns the cache path
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      */
     public function getCachePath() : string
     {
@@ -306,7 +302,7 @@ class i18n implements i18nInterface
      * returns the fallback language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      */
     public function getFallbackLang() : string
     {
@@ -317,7 +313,7 @@ class i18n implements i18nInterface
      * sets the path of the lanuage files
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $filePath   filepath to set
      */
     public function setFilePath(string $filePath): void
@@ -330,7 +326,7 @@ class i18n implements i18nInterface
      * sets the path to the cache files
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $cachePath  cache path to set
      */
     public function setCachePath(string $cachePath): void
@@ -343,7 +339,7 @@ class i18n implements i18nInterface
      * sets a fallback language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $fallbackLang   language to set
      */
     public function setFallbackLang(string $fallbackLang): void
@@ -356,7 +352,7 @@ class i18n implements i18nInterface
      * whether to merge the fallback languages or not
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           bool    $mergeFallback  merge fallback language
      */
     public function setMergeFallback(bool $mergeFallback): void
@@ -369,7 +365,7 @@ class i18n implements i18nInterface
      * sets the prefix for the result class
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $prefix     prefix to set
      */
     public function setPrefix(string $prefix): void
@@ -382,7 +378,7 @@ class i18n implements i18nInterface
      * sets a forced language
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string  $forcedLang     forced language to set
      */
     public function setForcedLang(string $forcedLang): void
@@ -395,7 +391,7 @@ class i18n implements i18nInterface
      * sets as section separator
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string      $sectionSeparator       section separator to set
      * @uses            self::fail_after_init()
      * @uses            self::$sectionSeparator
@@ -418,7 +414,7 @@ class i18n implements i18nInterface
      * Note: duplicate values are deleted.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @return          array       with the user languages sorted by priority
      * @uses            self::$forcedLang
      * @uses            self::$fallbackLang
@@ -468,10 +464,24 @@ class i18n implements i18nInterface
     }
 
     /**
+     * sets the namespace for the class
+     * null means no namespace
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     * @param           string|null $namespace              namespace to set
+     * @uses            self::$namespace
+     */
+    public function setNamespace(string|null $namespace) : void
+    {
+        $this->namespace = $namespace;
+    }
+
+    /**
      * returns the path to the configuration file
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string          $langcode           language code to use
      * @uses            self::$filePath
      */
@@ -484,7 +494,7 @@ class i18n implements i18nInterface
      * loads the source file and returns it as an array
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           string          $filename           file to load
      * @return          array
      * @throws          \InvalidArgumentException           if the extenstion of the given file is not supported
@@ -499,7 +509,7 @@ class i18n implements i18nInterface
                 break;
             case "yml":
             case "yaml":
-                $config = spyc_load_file($filename);
+                $config = Yaml::parse(file_get_contents($filename) ?: "") ;
                 break;
             case "json":
                 try {
@@ -511,13 +521,18 @@ class i18n implements i18nInterface
                         $e
                     );
                 }
-                $config = json_decode($fileContent, true);
+                $config = \json_decode($fileContent, true);
                 break;
             default:
                 throw new \InvalidArgumentException(
                     $extension." is not a valid extension!"
                 );
         }//end switch
+
+        if (!is_array($config)) {
+            throw new \Exception("unable to parse language files");
+        }
+
         return $config;
     }
 
@@ -525,7 +540,7 @@ class i18n implements i18nInterface
      * recursively compiles an associative array to PHP code.
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @param           array           $config         configuration to parse
      * @param           string          $prefix         prefix to use infront of the const
      * @throws          \InvalidArgumentException
@@ -553,7 +568,7 @@ class i18n implements i18nInterface
      * checks if the class already has been initialized
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       tourasia
+     * @copyright       David Lienhard
      * @throws          \BadMethodCallException if the class is already initalized
      * @uses            self::$isInitialized
      */
@@ -561,6 +576,76 @@ class i18n implements i18nInterface
     {
         if ($this->isInitialized()) {
             throw new \BadMethodCallException("This ".__CLASS__." object is already initalized, so you can not change any settings.");
+        }
+    }
+
+    /**
+     * checks whether the cache file is valid or outdated
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     */
+    protected function isOutdated() : bool
+    {
+        $cacheFilePath = $this->cacheFilePath ?? "";
+        $langFilePath = $this->langFilePath ?? "";
+
+        return !$this->filesystem->fileExists($cacheFilePath)
+            || $this->filesystem->lastModified($cacheFilePath) < $this->filesystem->lastModified($langFilePath) // the language config was updated
+            || ($this->mergeFallback && $this->filesystem->lastModified($cacheFilePath) < $this->filesystem->lastModified($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
+    }
+
+    /**
+     * creates the contents of the cache file
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     * @param           array           $config         configuration to use to vreate the file
+     */
+    protected function createCacheFile(array $config) : string
+    {
+        return
+            "<?php\n".
+            "declare(strict_types=1);\n\n".
+            ($this->namespace !== null ? "namespace ".$this->namespace.";\n\n" : "").
+            "use \\DavidLienhard\\i18n\\i18nCacheInterface;\n\n".
+            "class ".$this->prefix." implements i18nCacheInterface\n".
+            "{\n".
+            $this->compile($config)."\n".
+            "    public static function __callStatic(string \$string, array | null \$args) : mixed\n".
+            "    {\n".
+            "        return \\vsprintf(constant(\"self::\".\$string), \$args);\n".
+            "    }\n\n".
+            "    public static function get(string \$string, array | null \$args = null) : mixed\n".
+            "    {\n".
+            "        \$return = \\constant(\"self::\".\$string);\n".
+            "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "    }\n".
+            "}\n\n".
+            "function ".$this->prefix."(string \$string, array | null \$args = null) : mixed\n".
+            "{\n".
+            "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
+            "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
+            "    return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "}";
+    }
+
+    /**
+     * get language to apply
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     */
+    protected function getAppliedLanguage() : void
+    {
+        $this->appliedLang = null;
+        foreach ($this->userLangs as $priority => $langcode) {
+            $langFilePath = $this->getConfigFilename($langcode);
+            if ($this->filesystem->fileExists($langFilePath)) {
+                $this->langFilePath = $langFilePath;
+                $this->appliedLang = $langcode;
+                break;
+            }
         }
     }
 }

@@ -19,11 +19,12 @@
     },
     "require": {
         "php": "^8.0",
-        "league/flysystem": "^2"
+        "league/flysystem": "^2",
+        "symfony/yaml": "^5.3"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3",
-        "phpstan/phpstan": "^0",
+        "phpstan/phpstan": "^1",
         "davidlienhard/coding-standard": "^1",
         "league/flysystem-memory": "^2",
         "phpunit/phpunit": "^9"
@@ -42,7 +43,8 @@
         "coverage": "docker run --rm -v${PWD}:/srv/app ghcr.io/davidlienhard/tourbase-coverage",
         "test": [
             "@phpunit",
-            "@phpcs"
+            "@phpcs",
+            "@phpstan"
         ]
     }
 }
