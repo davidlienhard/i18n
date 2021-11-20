@@ -172,16 +172,7 @@ class i18n implements i18nInterface
 
         $this->userLangs = $this->getUserLangs();
 
-        // search for language file
-        $this->appliedLang = null;
-        foreach ($this->userLangs as $priority => $langcode) {
-            $langFilePath = $this->getConfigFilename($langcode);
-            if (file_exists($langFilePath)) {
-                $this->langFilePath = $langFilePath;
-                $this->appliedLang = $langcode;
-                break;
-            }
-        }
+        $this->getAppliedLanguage();
 
         if ($this->appliedLang === null || $this->langFilePath === null) {
             throw new \RuntimeException(
@@ -580,5 +571,24 @@ class i18n implements i18nInterface
             "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
             "    return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
             "}";
+    }
+
+    /**
+     * get language to apply
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     */
+    protected function getAppliedLanguage() : void
+    {
+        $this->appliedLang = null;
+        foreach ($this->userLangs as $priority => $langcode) {
+            $langFilePath = $this->getConfigFilename($langcode);
+            if (\file_exists($langFilePath)) {
+                $this->langFilePath = $langFilePath;
+                $this->appliedLang = $langcode;
+                break;
+            }
+        }
     }
 }
