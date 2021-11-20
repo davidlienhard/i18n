@@ -23,6 +23,11 @@ use Symfony\Component\Yaml\Yaml;
 class i18n implements i18nInterface
 {
     /**
+     * current version number of this library
+     */
+    protected string $version = "1.0.6";
+
+    /**
      * Language file path
      * This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language or the script wont find any language files.
      */
@@ -185,7 +190,10 @@ class i18n implements i18nInterface
         }
 
         // search for cache file
-        $this->cacheFilePath = $this->cachePath."/i18n_".md5($this->langFilePath)."_".$this->prefix."_".$this->appliedLang.".cache.php";
+        $this->cacheFilePath = $this->cachePath."/i18n_".
+            md5($this->langFilePath.$this->version)."_".
+            $this->prefix."_".
+            $this->appliedLang.".cache.php";
 
         // create cache path if necessary
         if (!is_dir($this->cachePath) && !mkdir($this->cachePath, 0755, true)) {
