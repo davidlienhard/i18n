@@ -194,12 +194,7 @@ class i18n implements i18nInterface
             );
         }
 
-        // whether we need to create a new cache file
-        $outdated = !file_exists($this->cacheFilePath)
-            || filemtime($this->cacheFilePath) < filemtime($this->langFilePath) // the language config was updated
-            || ($this->mergeFallback && filemtime($this->cacheFilePath) < filemtime($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
-
-        if ($outdated) {
+        if ($this->isOutdated()) {
             $config = $this->load($this->langFilePath);
             if ($this->mergeFallback) {
                 $config = array_replace_recursive($this->load($this->getConfigFilename($this->fallbackLang)), $config);
@@ -548,5 +543,21 @@ class i18n implements i18nInterface
         if ($this->isInitialized()) {
             throw new \BadMethodCallException("This ".__CLASS__." object is already initalized, so you can not change any settings.");
         }
+    }
+
+    /**
+     * checks whether the cache file is valid or outdated
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     */
+    protected function isOutdated() : bool
+    {
+        $cacheFilePath = $this->cacheFilePath ?? "";
+        $langFilePath = $this->langFilePath ?? "";
+
+        return !file_exists($cacheFilePath)
+            || filemtime($cacheFilePath) < filemtime($langFilePath) // the language config was updated
+            || ($this->mergeFallback && filemtime($cacheFilePath) < filemtime($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
     }
 }
