@@ -192,16 +192,7 @@ class i18n implements i18nInterface
 
         $this->userLangs = $this->getUserLangs();
 
-        // search for language file
-        $this->appliedLang = null;
-        foreach ($this->userLangs as $priority => $langcode) {
-            $langFilePath = $this->getConfigFilename($langcode);
-            if ($this->filesystem->fileExists($this->langFilePath)) {
-                $this->langFilePath = $langFilePath;
-                $this->appliedLang = $langcode;
-                break;
-            }
-        }
+        $this->getAppliedLanguage();
 
         if ($this->appliedLang === null || $this->langFilePath === null) {
             throw new \RuntimeException(
