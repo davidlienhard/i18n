@@ -495,7 +495,16 @@ class i18n implements i18nInterface
                 break;
             case "yml":
             case "yaml":
-                $config = Yaml::parse(file_get_contents($filename) ?: "") ;
+                try {
+                    $fileContent = $this->filesystem->read($filename);
+                } catch (FilesystemException | UnableToReadFile $e) {
+                    throw new \Exception(
+                        "unable to read language file '".$filename."'",
+                        intval($e->getCode()),
+                        $e
+                    );
+                }
+                $config = Yaml::parse($fileContent) ;
                 break;
             case "json":
                 try {
