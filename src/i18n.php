@@ -121,6 +121,7 @@ class i18n implements i18nInterface
      * @param           string|null     $cachePath      This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
      * @param           string|null     $fallbackLang   This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
      * @param           string|null     $prefix         The class name of the compiled class that contains the translated texts. Defaults to 'L'.
+     * @param           Filesystem|null $filesystem     filesystem object to use
      * @return          void
      * @uses            self::$filePath
      * @uses            self::$cachePath
