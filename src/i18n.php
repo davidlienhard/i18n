@@ -212,7 +212,7 @@ class i18n implements i18nInterface
         } catch (FilesystemException | UnableToCreateDirectory $e) {
             throw new \Exception(
                 "could not create cache path '".$this->cachePath."'",
-                $e->getCode(),
+                intval($e->getCode()),
                 $e
             );
         }
@@ -231,7 +231,7 @@ class i18n implements i18nInterface
                 } catch (FilesystemException | UnableToCreateDirectory $e) {
                     throw new \Exception(
                         "could not create cache path '".$this->cachePath."'",
-                        $e->getCode(),
+                        intval($e->getCode()),
                         $e
                     );
                 }
@@ -242,7 +242,7 @@ class i18n implements i18nInterface
             } catch (FilesystemException | UnableToWriteFile $e) {
                 throw new \Exception(
                     "Could not write cache file to path '".$this->cacheFilePath."'. Is it writable?",
-                    $e->getCode(),
+                    intval($e->getCode()),
                     $e
                 );
             }
@@ -503,7 +503,7 @@ class i18n implements i18nInterface
                 } catch (FilesystemException | UnableToReadFile $e) {
                     throw new \Exception(
                         "unable to read language file '".$filename."'",
-                        $e->getCode(),
+                        intval($e->getCode()),
                         $e
                     );
                 }
