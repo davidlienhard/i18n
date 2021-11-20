@@ -550,8 +550,6 @@ class i18n implements i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
-     * @throws          \BadMethodCallException if the class is already initalized
-     * @uses            self::$isInitialized
      */
     protected function isOutdated() : bool
     {
