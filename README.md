@@ -37,7 +37,7 @@ greeting: Hallo %1
 ### 2. Load the class
 Use composer autoloader if possible or include the files in the `src` folders manually
 
-### 3. create the object
+### 3. Create the object
 ```php
 <?php declare(strict_types=1);
 
@@ -52,7 +52,7 @@ you can either set some options right through the constructor or via the set met
 $i18n = new i18n(
     filePath: "./lang/{LANGUAGE}.yml",
     cachePath: "./cache/",
-    fallbackLang: "de",
+    fallbackLang: "en",
     prefix: "L"
 );
 
@@ -64,7 +64,7 @@ $i18n->setNamespace("YourApp\Translations");
 $i18n->init();
 ```
 
-### use the translation data
+### 6. Use the translation data
 ```php
 use \YourApp\Translations\L;
 
