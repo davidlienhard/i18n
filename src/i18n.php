@@ -3,8 +3,6 @@
 /**
  * contains a i18n class
  *
- * @package         tourBase
- * @subpackage      Core\i18n
  * @author          David Lienhard <david@t-error.ch>
  * @copyright       David Lienhard
  */
