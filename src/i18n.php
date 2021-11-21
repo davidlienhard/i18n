@@ -588,24 +588,42 @@ class i18n implements i18nInterface
     protected function createCacheFile(array $config) : string
     {
         return
-            "<?php\n".
-            "declare(strict_types=1);\n\n".
+            "<?php declare(strict_types=1);\n\n".
             ($this->namespace !== null ? "namespace ".$this->namespace.";\n\n" : "").
             "use \\DavidLienhard\\i18n\\i18nCacheInterface;\n\n".
             "class ".$this->prefix." implements i18nCacheInterface\n".
             "{\n".
             $this->compile($config)."\n".
-            "    public static function __callStatic(string \$string, array | null \$args) : mixed\n".
+            "    /**\n".
+            "     * calls the static properties set in the class\n".
+            "     *\n".
+            "     * @param           string          \$string         name of the property to call\n".
+            "     * @param           array|null      \$args           arguments for translation\n".
+            "     */\n".
+            "    public static function __callStatic(string \$string, array|null \$args) : mixed\n".
             "    {\n".
-            "        return \\vsprintf(constant(\"self::\".\$string), \$args);\n".
+            "        return \\vsprintf(\\constant(\"self::\".\$string), \$args);\n".
             "    }\n\n".
-            "    public static function get(string \$string, array | null \$args = null) : mixed\n".
+            "    /**\n".
+            "     * used to get properties set in the class\n".
+            "     *\n".
+            "     * @param           string          \$string         name of the property to call\n".
+            "     * @param           array|null      \$args           arguments for translation\n".
+            "     */\n".
+            "    public static function get(string \$string, array|null \$args = null) : mixed\n".
             "    {\n".
             "        \$return = \\constant(\"self::\".\$string);\n".
             "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
             "    }\n".
             "}\n\n".
-            "function ".$this->prefix."(string \$string, array | null \$args = null) : mixed\n".
+            "/**\n".
+            " * used to get properties set in the class\n".
+            " *\n".
+            " * @deprecated\n".
+            " * @param           string          \$string         name of the property to call\n".
+            " * @param           array|null      \$args           arguments for translation\n".
+            " */\n".
+            "function ".$this->prefix."(string \$string, array|null \$args = null) : mixed\n".
             "{\n".
             "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
             "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
