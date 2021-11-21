@@ -201,7 +201,7 @@ class i18n implements i18nInterface
             );
         }
 
-        // search for cache file
+        // define name of cache file
         $this->cacheFilePath = $this->cachePath."/i18n_".
             md5($this->langFilePath.$this->version)."_".
             $this->prefix."_".
