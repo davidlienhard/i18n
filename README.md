@@ -21,6 +21,7 @@ composer require davidlienhard/i18n:^1
 
 ### 1. Create language files
 Create at least one language file. Supported filetypes are `json`, `yaml`, `yml` or `ini`.
+
 `./lang/en.yml` (English)
 ```yml
 save: Save
@@ -49,7 +50,7 @@ $i18n = new i18n;
 you can either set some options right through the constructor or via the set methods
 ```php
 $i18n = new i18n(
-    filePath: "./lang/",
+    filePath: "./lang/{LANGUAGE}.yml",
     cachePath: "./cache/",
     fallbackLang: "de",
     prefix: "L"
