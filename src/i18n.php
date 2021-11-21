@@ -107,8 +107,11 @@ class i18n implements i18nInterface
     /** optional namespace to use in created class */
     protected string|null $namespace = null;
 
-    /* filesystem to use */
-    private Filesystem $filesystem;
+    /* filesystem to use to read data */
+    private Filesystem $sourceFilesystem;
+
+    /* filesystem to use to write cache data */
+    private Filesystem $cacheFilesystem;
 
 
     /**
@@ -117,11 +120,12 @@ class i18n implements i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
-     * @param           string|null     $filePath       This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language.
-     * @param           string|null     $cachePath      This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
-     * @param           string|null     $fallbackLang   This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
-     * @param           string|null     $prefix         The class name of the compiled class that contains the translated texts. Defaults to 'L'.
-     * @param           Filesystem|null $filesystem     filesystem object to use
+     * @param           string|null     $filePath           This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language.
+     * @param           string|null     $cachePath          This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
+     * @param           string|null     $fallbackLang       This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
+     * @param           string|null     $prefix             The class name of the compiled class that contains the translated texts. Defaults to 'L'.
+     * @param           Filesystem|null $sourceFilesystem   filesystem object to use to read data
+     * @param           Filesystem|null $cacheFilesystem    filesystem object to use to write cache data
      * @return          void
      * @uses            self::$filePath
      * @uses            self::$cachePath
@@ -133,7 +137,8 @@ class i18n implements i18nInterface
         string $cachePath = null,
         string $fallbackLang = null,
         string $prefix = null,
-        Filesystem $filesystem = null
+        Filesystem $sourceFilesystem = null,
+        Filesystem $cacheFilesystem = null
     ) {
         if ($filePath !== null) {
             $this->filePath = $filePath;
@@ -151,9 +156,14 @@ class i18n implements i18nInterface
             $this->prefix = $prefix;
         }
 
-        if ($filesystem === null) {
+        if ($sourceFilesystem === null) {
             $adapter = new LocalFilesystemAdapter("/");
-            $this->filesystem = new Filesystem($adapter);
+            $this->sourceFilesystem = new Filesystem($adapter);
+        }
+
+        if ($cacheFilesystem === null) {
+            $adapter = new LocalFilesystemAdapter("/");
+            $this->cacheFilesystem = new Filesystem($adapter);
         }
     }
 
@@ -215,9 +225,9 @@ class i18n implements i18nInterface
 
             $compiled = $this->createCacheFile($config);
 
-            if (!$this->filesystem->fileExists($this->cachePath)) {
+            if (!$this->cacheFilesystem->fileExists($this->cachePath)) {
                 try {
-                    $this->filesystem->createDirectory($this->cachePath);
+                    $this->cacheFilesystem->createDirectory($this->cachePath);
                 } catch (FilesystemException | UnableToCreateDirectory $e) {
                     throw new \Exception(
                         "could not create cache path '".$this->cachePath."'",
@@ -228,7 +238,7 @@ class i18n implements i18nInterface
             }
 
             try {
-                $this->filesystem->write($this->cacheFilePath, $compiled);
+                $this->cacheFilesystem->write($this->cacheFilePath, $compiled);
             } catch (FilesystemException | UnableToWriteFile $e) {
                 throw new \Exception(
                     "Could not write cache file to path '".$this->cacheFilePath."'. Is it writable?",
@@ -558,9 +568,9 @@ class i18n implements i18nInterface
         $cacheFilePath = $this->cacheFilePath ?? "";
         $langFilePath = $this->langFilePath ?? "";
 
-        return !$this->filesystem->fileExists($cacheFilePath)
-            || $this->filesystem->lastModified($cacheFilePath) < $this->filesystem->lastModified($langFilePath) // the language config was updated
-            || ($this->mergeFallback && $this->filesystem->lastModified($cacheFilePath) < $this->filesystem->lastModified($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
+        return !$this->cacheFilesystem->fileExists($cacheFilePath)
+            || $this->cacheFilesystem->lastModified($cacheFilePath) < $this->sourceFilesystem->lastModified($langFilePath) // the language config was updated
+            || ($this->mergeFallback && $this->cacheFilesystem->lastModified($cacheFilePath) < $this->sourceFilesystem->lastModified($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
     }
 
     /**
@@ -609,7 +619,7 @@ class i18n implements i18nInterface
         $this->appliedLang = null;
         foreach ($this->userLangs as $priority => $langcode) {
             $langFilePath = $this->getConfigFilename($langcode);
-            if ($this->filesystem->fileExists($langFilePath)) {
+            if ($this->sourceFilesystem->fileExists($langFilePath)) {
                 $this->langFilePath = $langFilePath;
                 $this->appliedLang = $langcode;
                 break;
@@ -627,7 +637,7 @@ class i18n implements i18nInterface
     protected function getFileContents(string $filename) : string
     {
         try {
-            return $this->filesystem->read($filename);
+            return $this->sourceFilesystem->read($filename);
         } catch (FilesystemException | UnableToReadFile $e) {
             throw new \Exception(
                 "unable to read language file '".$filename."'",
