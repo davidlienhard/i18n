@@ -12,6 +12,12 @@
 namespace DavidLienhard\i18n;
 
 use DavidLienhard\i18n\i18nInterface;
+use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\UnableToCreateDirectory;
+use League\Flysystem\UnableToReadFile;
+use League\Flysystem\UnableToWriteFile;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -101,6 +107,9 @@ class i18n implements i18nInterface
     /** optional namespace to use in created class */
     protected string|null $namespace = null;
 
+    /* filesystem to use */
+    private Filesystem $filesystem;
+
 
     /**
      * Constructor
@@ -112,14 +121,20 @@ class i18n implements i18nInterface
      * @param           string|null     $cachePath      This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
      * @param           string|null     $fallbackLang   This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
      * @param           string|null     $prefix         The class name of the compiled class that contains the translated texts. Defaults to 'L'.
+     * @param           Filesystem|null $filesystem     filesystem object to use
      * @return          void
      * @uses            self::$filePath
      * @uses            self::$cachePath
      * @uses            self::$fallbackLang
      * @uses            self::$prefix
      */
-    public function __construct(string $filePath = null, string $cachePath = null, string $fallbackLang = null, string $prefix = null)
-    {
+    public function __construct(
+        string $filePath = null,
+        string $cachePath = null,
+        string $fallbackLang = null,
+        string $prefix = null,
+        Filesystem $filesystem = null
+    ) {
         if ($filePath !== null) {
             $this->filePath = $filePath;
         }
@@ -134,6 +149,11 @@ class i18n implements i18nInterface
 
         if ($prefix !== null) {
             $this->prefix = $prefix;
+        }
+
+        if ($filesystem === null) {
+            $adapter = new LocalFilesystemAdapter("/");
+            $this->filesystem = new Filesystem($adapter);
         }
     }
 
@@ -164,7 +184,8 @@ class i18n implements i18nInterface
     {
         if ($this->isInitialized()) {
             throw new \BadMethodCallException(
-                "This object from class ".__CLASS__." is already initialized. It is not possible to init one object twice!"
+                "This object from class ".__CLASS__." is already initialized. ".
+                "It is not possible to init one object twice!"
             );
         }
 
@@ -180,18 +201,11 @@ class i18n implements i18nInterface
             );
         }
 
-        // search for cache file
+        // define name of cache file
         $this->cacheFilePath = $this->cachePath."/i18n_".
             md5($this->langFilePath.$this->version)."_".
             $this->prefix."_".
             $this->appliedLang.".cache.php";
-
-        // create cache path if necessary
-        if (!is_dir($this->cachePath) && !mkdir($this->cachePath, 0755, true)) {
-            throw new \Exception(
-                "could not create cache path '".$this->cachePath."'"
-            );
-        }
 
         if ($this->isOutdated()) {
             $config = $this->load($this->langFilePath);
@@ -201,17 +215,27 @@ class i18n implements i18nInterface
 
             $compiled = $this->createCacheFile($config);
 
-            if (!is_dir($this->cachePath)) {
-                mkdir(directory: $this->cachePath, recursive: true);
+            if (!$this->filesystem->fileExists($this->cachePath)) {
+                try {
+                    $this->filesystem->createDirectory($this->cachePath);
+                } catch (FilesystemException | UnableToCreateDirectory $e) {
+                    throw new \Exception(
+                        "could not create cache path '".$this->cachePath."'",
+                        intval($e->getCode()),
+                        $e
+                    );
+                }
             }
 
-            if (file_put_contents($this->cacheFilePath, $compiled) === false) {
+            try {
+                $this->filesystem->write($this->cacheFilePath, $compiled);
+            } catch (FilesystemException | UnableToWriteFile $e) {
                 throw new \Exception(
-                    "Could not write cache file to path '".$this->cacheFilePath."'. Is it writable?"
+                    "Could not write cache file to path '".$this->cacheFilePath."'. Is it writable?",
+                    intval($e->getCode()),
+                    $e
                 );
             }
-
-            chmod($this->cacheFilePath, 0755);
         }//end if
 
         require_once $this->cacheFilePath;
@@ -457,20 +481,20 @@ class i18n implements i18nInterface
         switch ($extension) {
             case "properties":
             case "ini":
-                $config = parse_ini_file($filename, true);
+                $config = \parse_ini_string($this->getFileContents($filename), true);
                 break;
             case "yml":
             case "yaml":
-                $config = Yaml::parse(file_get_contents($filename) ?: "") ;
+                $config = Yaml::parse($this->getFileContents($filename)) ;
                 break;
             case "json":
-                $config = json_decode(file_get_contents($filename) ?: "", true, JSON_THROW_ON_ERROR);
+                $config = \json_decode($this->getFileContents($filename), true);
                 break;
             default:
                 throw new \InvalidArgumentException(
                     $extension." is not a valid extension!"
                 );
-        }
+        }//end switch
 
         if (!is_array($config)) {
             throw new \Exception("unable to parse language files");
@@ -533,9 +557,9 @@ class i18n implements i18nInterface
         $cacheFilePath = $this->cacheFilePath ?? "";
         $langFilePath = $this->langFilePath ?? "";
 
-        return !file_exists($cacheFilePath)
-            || filemtime($cacheFilePath) < filemtime($langFilePath) // the language config was updated
-            || ($this->mergeFallback && filemtime($cacheFilePath) < filemtime($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
+        return !$this->filesystem->fileExists($cacheFilePath)
+            || $this->filesystem->lastModified($cacheFilePath) < $this->filesystem->lastModified($langFilePath) // the language config was updated
+            || ($this->mergeFallback && $this->filesystem->lastModified($cacheFilePath) < $this->filesystem->lastModified($this->getConfigFilename($this->fallbackLang))); // the fallback language config was updated
     }
 
     /**
@@ -584,11 +608,31 @@ class i18n implements i18nInterface
         $this->appliedLang = null;
         foreach ($this->userLangs as $priority => $langcode) {
             $langFilePath = $this->getConfigFilename($langcode);
-            if (\file_exists($langFilePath)) {
+            if ($this->filesystem->fileExists($langFilePath)) {
                 $this->langFilePath = $langFilePath;
                 $this->appliedLang = $langcode;
                 break;
             }
+        }
+    }
+
+    /**
+     * returns the content of the given file
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     * @param           string          $filename       path to the file to read
+     */
+    protected function getFileContents(string $filename) : string
+    {
+        try {
+            return $this->filesystem->read($filename);
+        } catch (FilesystemException | UnableToReadFile $e) {
+            throw new \Exception(
+                "unable to read language file '".$filename."'",
+                intval($e->getCode()),
+                $e
+            );
         }
     }
 }
