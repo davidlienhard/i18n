@@ -56,7 +56,7 @@ $i18n = new i18n(
     prefix: "L"
 );
 
-$i18n->setNamespace("\YourApp\Translations\");
+$i18n->setNamespace("\YourApp\Translations");
 ```
 
 ### 5. Initialize the class / create cache-files
