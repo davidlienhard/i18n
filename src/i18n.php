@@ -211,9 +211,16 @@ class i18n implements i18nInterface
             );
         }
 
+        // define hash to use in cache path
+        $hash = \md5(
+            $this->langFilePath.
+            $this->version.
+            ($this->namespace ?? "")
+        );
+
         // define name of cache file
         $this->cacheFilePath = $this->cachePath."/i18n_".
-            md5($this->langFilePath.$this->version)."_".
+            $hash."_".
             $this->prefix."_".
             $this->appliedLang.".cache.php";
 
