@@ -207,17 +207,6 @@ class i18n implements i18nInterface
             $this->prefix."_".
             $this->appliedLang.".cache.php";
 
-        // create cache path if necessary
-        try {
-            $this->filesystem->createDirectory($this->cachePath);
-        } catch (FilesystemException | UnableToCreateDirectory $e) {
-            throw new \Exception(
-                "could not create cache path '".$this->cachePath."'",
-                intval($e->getCode()),
-                $e
-            );
-        }
-
         if ($this->isOutdated()) {
             $config = $this->load($this->langFilePath);
             if ($this->mergeFallback) {
