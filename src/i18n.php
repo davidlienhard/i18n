@@ -481,7 +481,7 @@ class i18n implements i18nInterface
         switch ($extension) {
             case "properties":
             case "ini":
-                $config = \parse_ini_file($filename, true);
+                $config = \parse_ini_string($this->getFileContents($filename), true);
                 break;
             case "yml":
             case "yaml":
