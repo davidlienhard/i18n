@@ -379,6 +379,21 @@ class i18n implements i18nInterface
     }
 
     /**
+     * sets the namespace for the class
+     * null means no namespace
+     *
+     * @author          David Lienhard <david.lienhard@tourasia.ch>
+     * @copyright       David Lienhard
+     * @param           string|null $namespace              namespace to set
+     * @uses            self::$namespace
+     */
+    public function setNamespace(string|null $namespace) : void
+    {
+        $this->fail_after_init();
+        $this->namespace = $namespace;
+    }
+
+    /**
      * getUserLangs()
      * Returns the user languages
      * Normally it returns an array like this:
@@ -437,20 +452,6 @@ class i18n implements i18nInterface
         }
 
         return $userLangs2;
-    }
-
-    /**
-     * sets the namespace for the class
-     * null means no namespace
-     *
-     * @author          David Lienhard <david.lienhard@tourasia.ch>
-     * @copyright       David Lienhard
-     * @param           string|null $namespace              namespace to set
-     * @uses            self::$namespace
-     */
-    public function setNamespace(string|null $namespace) : void
-    {
-        $this->namespace = $namespace;
     }
 
     /**
