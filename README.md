@@ -66,7 +66,7 @@ $i18n->init();
 
 ### 6. Use the translation data
 ```php
-use \YourApp\Translations\L;
+use YourApp\Translations\L;
 
 echo L::save;                       // Save / Speichern
 echo L::get("save");                // Save / Speichern
