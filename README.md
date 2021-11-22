@@ -37,7 +37,7 @@ greeting: Hallo %1
 ### 2. Load the class
 Use composer autoloader if possible or include the files in the `src` folders manually
 
-### 3. create the object
+### 3. Create the object
 ```php
 <?php declare(strict_types=1);
 
@@ -52,11 +52,11 @@ you can either set some options right through the constructor or via the set met
 $i18n = new i18n(
     filePath: "./lang/{LANGUAGE}.yml",
     cachePath: "./cache/",
-    fallbackLang: "de",
+    fallbackLang: "en",
     prefix: "L"
 );
 
-$i18n->setNamespace("\YourApp\Translations\");
+$i18n->setNamespace("YourApp\Translations");
 ```
 
 The following setter methods are available:
@@ -75,9 +75,9 @@ $i18n->init();
 
 Thss will then create the cache file if required and load the new translation data with the given namespace & prefix/class-name.
 
-### use the translation data
+### 6. Use the translation data
 ```php
-use \YourApp\Translations\L;
+use YourApp\Translations\L;
 
 echo L::save;                       // Save / Speichern
 echo L::get("save");                // Save / Speichern
