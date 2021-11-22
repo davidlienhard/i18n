@@ -59,10 +59,21 @@ $i18n = new i18n(
 $i18n->setNamespace("\YourApp\Translations\");
 ```
 
+The following setter methods are available:
+ - `setFilePath(string $filePath)`: Sets the path to the language files
+ - `setCachePath(string $cachePath)`: Sets the path to the cache directory
+ - `setFallbackLang(string $fallbackLang)`: sets a fallback language
+ - `setMergeFallback(bool $mergeFallback)`: whether or not to merge the fallback language
+ - `setPrefix(string $prefix)`: Sets the prefix/name of the class to contain the translations
+ - `setForcedLang(string $forcedLang)`: a language that is forced to be used
+ - `setSectionSeparator(string $sectionSeparator)`: the character to use to concatenate sections
+
 ### 5. Initialize the class / create cache-files
 ```php
 $i18n->init();
 ```
+
+Thss will then create the cache file if required and load the new translation data with the given namespace & prefix/class-name.
 
 ### use the translation data
 ```php
