@@ -494,7 +494,7 @@ class i18n implements i18nInterface
      */
     protected function load(string $filename) : array
     {
-        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $extension = \strtolower(\pathinfo($filename, PATHINFO_EXTENSION)) ;
         switch ($extension) {
             case "properties":
             case "ini":
