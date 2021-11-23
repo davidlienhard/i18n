@@ -16,6 +16,7 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\UnableToCreateDirectory;
 use League\Flysystem\UnableToReadFile;
 use League\Flysystem\UnableToWriteFile;
+use Nette\Neon\Neon;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -502,6 +503,9 @@ class i18n implements i18nInterface
             case "yml":
             case "yaml":
                 $config = Yaml::parse($this->getFileContents($filename)) ;
+                break;
+            case "neon":
+                $config = Neon::decode($this->getFileContents($filename)) ;
                 break;
             case "json":
                 $config = \json_decode($this->getFileContents($filename), true);
