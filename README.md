@@ -12,7 +12,7 @@
 You can install through `composer` with:
 
 ```
-composer require davidlienhard/i18n:^1
+composer require davidlienhard/i18n:^2
 ```
 
 *Note: davidlienhard/i18n requires PHP 8.0*

@@ -30,7 +30,7 @@ class i18n implements i18nInterface
     /**
      * current version number of this library
      */
-    protected string $version = "1.0.6";
+    protected string $version = "2.0.0";
 
     /**
      * Language file path
