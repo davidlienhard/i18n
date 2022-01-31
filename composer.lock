@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "league/flysystem",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "4a6f9f7d7b97c938f2fd25aeb9ff9a6a34c79f2f"
+                "reference": "88cf6a53c0cf63820ea3b21681576421591dbfad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4a6f9f7d7b97c938f2fd25aeb9ff9a6a34c79f2f",
-                "reference": "4a6f9f7d7b97c938f2fd25aeb9ff9a6a34c79f2f",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/88cf6a53c0cf63820ea3b21681576421591dbfad",
+                "reference": "88cf6a53c0cf63820ea3b21681576421591dbfad",
                 "shasum": ""
             },
             "require": {
@@ -34,6 +34,7 @@
                 "aws/aws-sdk-php": "^3.132.4",
                 "composer/semver": "^3.0",
                 "ext-fileinfo": "*",
+                "ext-ftp": "*",
                 "friendsofphp/php-cs-fixer": "^3.2",
                 "google/cloud-storage": "^1.23",
                 "phpseclib/phpseclib": "^2.0",
@@ -73,7 +74,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/2.4.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/2.4.1"
             },
             "funding": [
                 {
@@ -89,7 +90,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-04T17:09:29+00:00"
+            "time": "2022-01-30T13:27:10+00:00"
         },
         {
             "name": "league/mime-type-detection",
