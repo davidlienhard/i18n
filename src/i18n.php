@@ -644,7 +644,7 @@ class i18n implements i18nInterface
     protected function getAppliedLanguage() : void
     {
         $this->appliedLang = null;
-        foreach ($this->userLangs as $priority => $langcode) {
+        foreach ($this->userLangs as $langcode) {
             $langFilePath = $this->getConfigFilename($langcode);
             if ($this->sourceFilesystem->fileExists($langFilePath)) {
                 $this->langFilePath = $langFilePath;
