@@ -86,8 +86,6 @@ class i18n implements i18nInterface
      * 2. Language in $_GET['lang']
      * 3. Language in $_SESSION['lang']
      * 4. Fallback language
-     *
-     * @var     array       $userLangs
      */
     protected array $userLangs = [];
 
@@ -489,7 +487,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string          $filename           file to load
-     * @return          array
      * @throws          \InvalidArgumentException           if the extenstion of the given file is not supported
      */
     protected function load(string $filename) : array
