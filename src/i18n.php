@@ -132,12 +132,12 @@ class i18n implements i18nInterface
      * @uses            self::$prefix
      */
     public function __construct(
-        string $filePath = null,
-        string $cachePath = null,
-        string $fallbackLang = null,
-        string $prefix = null,
-        Filesystem $sourceFilesystem = null,
-        Filesystem $cacheFilesystem = null
+        string|null $filePath = null,
+        string|null $cachePath = null,
+        string|null $fallbackLang = null,
+        string|null $prefix = null,
+        Filesystem|null $sourceFilesystem = null,
+        Filesystem|null $cacheFilesystem = null
     ) {
         if ($filePath !== null) {
             $this->filePath = $filePath;

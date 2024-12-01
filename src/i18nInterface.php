@@ -27,19 +27,21 @@ interface i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
-     * @param           string|null     $filePath       This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language.
-     * @param           string|null     $cachePath      This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
-     * @param           string|null     $fallbackLang   This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
-     * @param           string|null     $prefix         The class name of the compiled class that contains the translated texts. Defaults to 'L'.
-     * @param           Filesystem|null $filesystem     filesystem object to use
+     * @param           string|null     $filePath           This is the path for the language files. You must use the '{LANGUAGE}' placeholder for the language.
+     * @param           string|null     $cachePath          This is the path for all the cache files. Best is an empty directory with no other files in it. No placeholders.
+     * @param           string|null     $fallbackLang       This is the language which is used when there is no language file for all other user languages. It has the lowest priority.
+     * @param           string|null     $prefix             The class name of the compiled class that contains the translated texts. Defaults to 'L'.
+     * @param           Filesystem|null $filesystem         filesystem object to use
+     * @param           Filesystem|null $cacheFilesystem    filesystem object to use to write cache data
      * @return          void
      */
     public function __construct(
-        string $filePath = null,
-        string $cachePath = null,
-        string $fallbackLang = null,
-        string $prefix = null,
-        Filesystem $filesystem = null
+        string|null $filePath = null,
+        string|null $cachePath = null,
+        string|null $fallbackLang = null,
+        string|null $prefix = null,
+        Filesystem|null $filesystem = null,
+        Filesystem|null $cacheFilesystem = null
     );
 
     /**
