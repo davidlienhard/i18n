@@ -446,7 +446,7 @@ class i18n implements i18nInterface
         }
 
         // 4th highest priority: HTTP_ACCEPT_LANGUAGE
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) and \is_string($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && \is_string($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             foreach (explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $part) {
                 $userLangs[] = strtolower(substr($part, 0, 2));
             }
