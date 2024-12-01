@@ -86,6 +86,8 @@ class i18n implements i18nInterface
      * 2. Language in $_GET['lang']
      * 3. Language in $_SESSION['lang']
      * 4. Fallback language
+     *
+     * @var array<string>
      */
     protected array $userLangs = [];
 
@@ -420,7 +422,7 @@ class i18n implements i18nInterface
      *
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
-     * @return          array       with the user languages sorted by priority
+     * @return          array<string>   with the user languages sorted by priority
      * @uses            self::$forcedLang
      * @uses            self::$fallbackLang
      */
@@ -444,7 +446,7 @@ class i18n implements i18nInterface
         }
 
         // 4th highest priority: HTTP_ACCEPT_LANGUAGE
-        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && \is_string($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             foreach (explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $part) {
                 $userLangs[] = strtolower(substr($part, 0, 2));
             }
@@ -535,7 +537,7 @@ class i18n implements i18nInterface
         foreach ($config as $key => $value) {
             if (is_array($value)) {
                 $code .= $this->compile($value, $prefix.$key.$this->sectionSeparator);
-            } else {
+            } elseif (\is_string($value) || \is_float($value) || \is_int($value) || \is_bool($value)) {
                 $fullName = $prefix.$key;
                 if (!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\$/", $fullName)) {
                     throw new \InvalidArgumentException(
