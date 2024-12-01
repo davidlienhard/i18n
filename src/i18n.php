@@ -86,8 +86,6 @@ class i18n implements i18nInterface
      * 2. Language in $_GET['lang']
      * 3. Language in $_SESSION['lang']
      * 4. Fallback language
-     *
-     * @var     array       $userLangs
      */
     protected array $userLangs = [];
 
@@ -132,12 +130,12 @@ class i18n implements i18nInterface
      * @uses            self::$prefix
      */
     public function __construct(
-        string $filePath = null,
-        string $cachePath = null,
-        string $fallbackLang = null,
-        string $prefix = null,
-        Filesystem $sourceFilesystem = null,
-        Filesystem $cacheFilesystem = null
+        string|null $filePath = null,
+        string|null $cachePath = null,
+        string|null $fallbackLang = null,
+        string|null $prefix = null,
+        Filesystem|null $sourceFilesystem = null,
+        Filesystem|null $cacheFilesystem = null
     ) {
         if ($filePath !== null) {
             $this->filePath = $filePath;
@@ -489,7 +487,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string          $filename           file to load
-     * @return          array
      * @throws          \InvalidArgumentException           if the extenstion of the given file is not supported
      */
     protected function load(string $filename) : array
