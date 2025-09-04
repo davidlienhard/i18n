@@ -30,7 +30,7 @@ class i18n implements i18nInterface
     /**
      * current version number of this library
      */
-    protected string $version = "2.0.0";
+    protected string $version = "2.0.6";
 
     /**
      * Language file path
@@ -603,7 +603,7 @@ class i18n implements i18nInterface
             "     * @param           string          \$string         name of the property to call\n".
             "     * @param           array|null      \$args           arguments for translation\n".
             "     */\n".
-            "    public static function __callStatic(string \$string, array|null \$args) : mixed\n".
+            "    public static function __callStatic(string \$string, array|null \$args) : int|float|string|bool\n".
             "    {\n".
             "        return \\vsprintf(\\constant(\"self::\".\$string), \$args);\n".
             "    }\n\n".
@@ -613,7 +613,7 @@ class i18n implements i18nInterface
             "     * @param           string          \$string         name of the property to call\n".
             "     * @param           array|null      \$args           arguments for translation\n".
             "     */\n".
-            "    public static function get(string \$string, array|null \$args = null) : mixed\n".
+            "    public static function get(string \$string, array|null \$args = null) : int|float|string|bool\n".
             "    {\n".
             "        \$return = \\constant(\"self::\".\$string);\n".
             "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
@@ -626,7 +626,7 @@ class i18n implements i18nInterface
             " * @param           string          \$string         name of the property to call\n".
             " * @param           array|null      \$args           arguments for translation\n".
             " */\n".
-            "function ".$this->prefix."(string \$string, array|null \$args = null) : mixed\n".
+            "function ".$this->prefix."(string \$string, array|null \$args = null) : int|float|string|bool\n".
             "{\n".
             "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
             "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".

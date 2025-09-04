@@ -27,7 +27,7 @@ interface i18nCacheInterface
      * @param           string          $string         name of the property to call
      * @param           array           $args           arguments for translation
      */
-    public static function __callStatic(string $string, array|null $args) : mixed;
+    public static function __callStatic(string $string, array|null $args) : int|float|string|bool;
 
     /**
      * used to get properties set in the class
@@ -37,5 +37,5 @@ interface i18nCacheInterface
      * @param           string          $string         name of the property to call
      * @param           array|null      $args           arguments for translation
      */
-    public static function get(string $string, array|null $args = null) : mixed;
+    public static function get(string $string, array|null $args = null) : int|float|string|bool;
 }
