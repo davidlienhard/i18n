@@ -537,7 +537,7 @@ class i18n implements i18nInterface
         foreach ($config as $key => $value) {
             if (is_array($value)) {
                 $code .= $this->compile($value, $prefix.$key.$this->sectionSeparator);
-            } elseif (\is_string($value) || \is_float($value) || \is_int($value) || \is_bool($value)) {
+            } elseif (\is_int($value) || \is_float($value) || \is_string($value) || \is_bool($value)) {
                 $fullName = $prefix.$key;
                 if (!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\$/", $fullName)) {
                     throw new \InvalidArgumentException(
