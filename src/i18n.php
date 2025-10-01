@@ -126,10 +126,6 @@ class i18n implements i18nInterface
      * @param           Filesystem|null $sourceFilesystem   filesystem object to use to read data
      * @param           Filesystem|null $cacheFilesystem    filesystem object to use to write cache data
      * @return          void
-     * @uses            self::$filePath
-     * @uses            self::$cachePath
-     * @uses            self::$fallbackLang
-     * @uses            self::$prefix
      */
     public function __construct(
         string|null $filePath = null,
@@ -174,20 +170,6 @@ class i18n implements i18nInterface
      * @throws          \BadMethodCallException     if the object is already initialized
      * @throws          \RuntimeException           if no language file can be found
      * @throws          \Exception                  if the cache-file could ne be created
-     * @uses            self::isInitialized()
-     * @uses            self::$isInitialized
-     * @uses            self::$userLangs
-     * @uses            self::getUserLangs()
-     * @uses            self::$appliedLang
-     * @uses            self::$langFilePath
-     * @uses            self::getConfigFilename()
-     * @uses            self::$cacheFilePath
-     * @uses            self::$cachePath
-     * @uses            self::$prefix
-     * @uses            self::$fallbackLang
-     * @uses            self::$mergeFallback
-     * @uses            self::load()
-     * @uses            self::compile()
      */
     public function init(): void
     {
@@ -385,8 +367,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string      $sectionSeparator       section separator to set
-     * @uses            self::fail_after_init()
-     * @uses            self::$sectionSeparator
      */
     public function setSectionSeparator(string $sectionSeparator): void
     {
@@ -401,7 +381,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string|null $namespace              namespace to set
-     * @uses            self::$namespace
      */
     public function setNamespace(string|null $namespace) : void
     {
@@ -423,8 +402,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @return          array<string>   with the user languages sorted by priority
-     * @uses            self::$forcedLang
-     * @uses            self::$fallbackLang
      */
     public function getUserLangs() : array
     {
@@ -476,7 +453,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string          $langcode           language code to use
-     * @uses            self::$filePath
      */
     protected function getConfigFilename(string $langcode) : string
     {
@@ -489,31 +465,26 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string          $filename           file to load
-     * @throws          \InvalidArgumentException           if the extenstion of the given file is not supported
+     * @throws          \InvalidArgumentException           if the extension of the given file is not supported
      */
     protected function load(string $filename) : array
     {
         $extension = \strtolower(\pathinfo($filename, PATHINFO_EXTENSION)) ;
-        switch ($extension) {
-            case "properties":
-            case "ini":
-                $config = \parse_ini_string($this->getFileContents($filename), true);
-                break;
-            case "yml":
-            case "yaml":
-                $config = Yaml::parse($this->getFileContents($filename)) ;
-                break;
-            case "neon":
-                $config = Neon::decode($this->getFileContents($filename)) ;
-                break;
-            case "json":
-                $config = \json_decode($this->getFileContents($filename), true);
-                break;
-            default:
-                throw new \InvalidArgumentException(
-                    $extension." is not a valid extension!"
-                );
-        }//end switch
+
+        try {
+            $config = match ($extension) {
+                "properties", "ini" => \parse_ini_string($this->getFileContents($filename), true),
+                "yml", "yaml"       => Yaml::parse($this->getFileContents($filename)),
+                "neon"              => Neon::decode($this->getFileContents($filename)),
+                "json"              => \json_decode($this->getFileContents($filename), true)
+            };
+        } catch (\UnhandledMatchError $e) {
+            throw new \InvalidArgumentException(
+                $extension." is not a valid extension!",
+                $e->getCode(),
+                $e
+            );
+        }
 
         if (!is_array($config)) {
             throw new \Exception("unable to parse language files");
@@ -537,14 +508,15 @@ class i18n implements i18nInterface
         foreach ($config as $key => $value) {
             if (is_array($value)) {
                 $code .= $this->compile($value, $prefix.$key.$this->sectionSeparator);
-            } elseif (\is_string($value) || \is_float($value) || \is_int($value) || \is_bool($value)) {
+            } elseif (\is_int($value) || \is_float($value) || \is_string($value) || \is_bool($value)) {
                 $fullName = $prefix.$key;
                 if (!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\$/", $fullName)) {
                     throw new \InvalidArgumentException(
                         __CLASS__.": Cannot compile translation key ".$fullName." because it is not a valid PHP identifier."
                     );
                 }
-                $code .= "    const ".$fullName." = '".str_replace("'", "\\'", strval($value))."';\n";
+
+                $code .= "    public const string ".$fullName." = '".\str_replace("'", "\\'", \strval($value))."';\n";
             }
         }
         return $code;
@@ -556,7 +528,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @throws          \BadMethodCallException if the class is already initalized
-     * @uses            self::$isInitialized
      */
     protected function fail_after_init(): void
     {
@@ -603,7 +574,7 @@ class i18n implements i18nInterface
             "     * @param           string          \$string         name of the property to call\n".
             "     * @param           array|null      \$args           arguments for translation\n".
             "     */\n".
-            "    public static function __callStatic(string \$string, array|null \$args) : mixed\n".
+            "    public static function __callStatic(string \$string, array|null \$args) : string\n".
             "    {\n".
             "        return \\vsprintf(\\constant(\"self::\".\$string), \$args);\n".
             "    }\n\n".
@@ -613,7 +584,7 @@ class i18n implements i18nInterface
             "     * @param           string          \$string         name of the property to call\n".
             "     * @param           array|null      \$args           arguments for translation\n".
             "     */\n".
-            "    public static function get(string \$string, array|null \$args = null) : mixed\n".
+            "    public static function get(string \$string, array|null \$args = null) : string\n".
             "    {\n".
             "        \$return = \\constant(\"self::\".\$string);\n".
             "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
@@ -626,7 +597,7 @@ class i18n implements i18nInterface
             " * @param           string          \$string         name of the property to call\n".
             " * @param           array|null      \$args           arguments for translation\n".
             " */\n".
-            "function ".$this->prefix."(string \$string, array|null \$args = null) : mixed\n".
+            "function ".$this->prefix."(string \$string, array|null \$args = null) : string\n".
             "{\n".
             "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
             "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
