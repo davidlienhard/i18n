@@ -545,7 +545,7 @@ class i18n implements i18nInterface
                     );
                 }
 
-                $code .= "    public const string ".$fullName." = '".str_replace("'", "\\'", \strval($value))."';\n";
+                $code .= "    public const string ".$fullName." = '".\str_replace("'", "\\'", \strval($value))."';\n";
             }
         }
         return $code;
