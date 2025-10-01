@@ -630,7 +630,7 @@ class i18n implements i18nInterface
             "    {\n".
             "        \$constant = \\constant(\"self::\".\$string);\n\n".
             "        if (\is_array(\$constant)) {\n".
-            "            throw new ConversionException(\"cannot convert array to string\");\n".
+            "            throw new ConversionException(\"cannot convert array to int\");\n".
             "        }\n\n".
             "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
             "        return \\intval(\$return);\n".
@@ -645,7 +645,7 @@ class i18n implements i18nInterface
             "    {\n".
             "        \$constant = \\constant(\"self::\".\$string);\n\n".
             "        if (\is_array(\$constant)) {\n".
-            "            throw new ConversionException(\"cannot convert array to string\");\n".
+            "            throw new ConversionException(\"cannot convert array to float\");\n".
             "        }\n\n".
             "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
             "        return \\floatval(\$return);\n".
@@ -675,7 +675,7 @@ class i18n implements i18nInterface
             "    {\n".
             "        \$constant = \\constant(\"self::\".\$string);\n\n".
             "        if (\is_array(\$constant)) {\n".
-            "            throw new ConversionException(\"cannot convert array to string\");\n".
+            "            throw new ConversionException(\"cannot convert array to bool\");\n".
             "        }\n\n".
             "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
             "        return \\boolval(\$return);\n".
