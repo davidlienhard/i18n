@@ -545,7 +545,7 @@ class i18n implements i18nInterface
                     );
                 }
                 $code .= "    /** @var int|float|string|bool */\n";
-                $code .= "    const ".$fullName." = '".str_replace("'", "\\'", \strval($value))."';\n\n";
+                $code .= "    public const ".$fullName." = '".str_replace("'", "\\'", \strval($value))."';\n\n";
             }
         }
         return $code;
