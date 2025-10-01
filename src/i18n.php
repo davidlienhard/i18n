@@ -497,9 +497,9 @@ class i18n implements i18nInterface
 
         try {
             $config = match ($extension) {
-                "properties", "ini" => \parse_ini_string($this->getFileContents($filename), true)
-                "yml", "yaml"       => Yaml::parse($this->getFileContents($filename))
-                "neon"              => Neon::decode($this->getFileContents($filename))
+                "properties", "ini" => \parse_ini_string($this->getFileContents($filename), true),
+                "yml", "yaml"       => Yaml::parse($this->getFileContents($filename)),
+                "neon"              => Neon::decode($this->getFileContents($filename)),
                 "json"              => \json_decode($this->getFileContents($filename), true)
             };
         } catch (\UnhandledMatchError $e) {
