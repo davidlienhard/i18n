@@ -504,7 +504,7 @@ class i18n implements i18nInterface
             };
         } catch (\UnhandledMatchError $e) {
             throw new \InvalidArgumentException(
-                $extension." is not a valid extension!"
+                $extension." is not a valid extension!",
                 $e->getCode(),
                 $e
             );
