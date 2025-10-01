@@ -30,7 +30,7 @@ class i18n implements i18nInterface
     /**
      * current version number of this library
      */
-    protected string $version = "2.0.0";
+    protected string $version = "2.0.6";
 
     /**
      * Language file path
@@ -508,14 +508,15 @@ class i18n implements i18nInterface
         foreach ($config as $key => $value) {
             if (is_array($value)) {
                 $code .= $this->compile($value, $prefix.$key.$this->sectionSeparator);
-            } elseif (\is_string($value) || \is_float($value) || \is_int($value) || \is_bool($value)) {
+            } elseif (\is_int($value) || \is_float($value) || \is_string($value) || \is_bool($value)) {
                 $fullName = $prefix.$key;
                 if (!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\$/", $fullName)) {
                     throw new \InvalidArgumentException(
                         __CLASS__.": Cannot compile translation key ".$fullName." because it is not a valid PHP identifier."
                     );
                 }
-                $code .= "    const ".$fullName." = '".str_replace("'", "\\'", strval($value))."';\n";
+
+                $code .= "    public const string ".$fullName." = '".\str_replace("'", "\\'", \strval($value))."';\n";
             }
         }
         return $code;
@@ -573,7 +574,7 @@ class i18n implements i18nInterface
             "     * @param           string          \$string         name of the property to call\n".
             "     * @param           array|null      \$args           arguments for translation\n".
             "     */\n".
-            "    public static function __callStatic(string \$string, array|null \$args) : mixed\n".
+            "    public static function __callStatic(string \$string, array|null \$args) : string\n".
             "    {\n".
             "        return \\vsprintf(\\constant(\"self::\".\$string), \$args);\n".
             "    }\n\n".
@@ -583,7 +584,7 @@ class i18n implements i18nInterface
             "     * @param           string          \$string         name of the property to call\n".
             "     * @param           array|null      \$args           arguments for translation\n".
             "     */\n".
-            "    public static function get(string \$string, array|null \$args = null) : mixed\n".
+            "    public static function get(string \$string, array|null \$args = null) : string\n".
             "    {\n".
             "        \$return = \\constant(\"self::\".\$string);\n".
             "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
@@ -596,7 +597,7 @@ class i18n implements i18nInterface
             " * @param           string          \$string         name of the property to call\n".
             " * @param           array|null      \$args           arguments for translation\n".
             " */\n".
-            "function ".$this->prefix."(string \$string, array|null \$args = null) : mixed\n".
+            "function ".$this->prefix."(string \$string, array|null \$args = null) : string\n".
             "{\n".
             "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
             "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
