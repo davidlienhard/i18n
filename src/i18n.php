@@ -126,10 +126,6 @@ class i18n implements i18nInterface
      * @param           Filesystem|null $sourceFilesystem   filesystem object to use to read data
      * @param           Filesystem|null $cacheFilesystem    filesystem object to use to write cache data
      * @return          void
-     * @uses            self::$filePath
-     * @uses            self::$cachePath
-     * @uses            self::$fallbackLang
-     * @uses            self::$prefix
      */
     public function __construct(
         string|null $filePath = null,
@@ -174,20 +170,6 @@ class i18n implements i18nInterface
      * @throws          \BadMethodCallException     if the object is already initialized
      * @throws          \RuntimeException           if no language file can be found
      * @throws          \Exception                  if the cache-file could ne be created
-     * @uses            self::isInitialized()
-     * @uses            self::$isInitialized
-     * @uses            self::$userLangs
-     * @uses            self::getUserLangs()
-     * @uses            self::$appliedLang
-     * @uses            self::$langFilePath
-     * @uses            self::getConfigFilename()
-     * @uses            self::$cacheFilePath
-     * @uses            self::$cachePath
-     * @uses            self::$prefix
-     * @uses            self::$fallbackLang
-     * @uses            self::$mergeFallback
-     * @uses            self::load()
-     * @uses            self::compile()
      */
     public function init(): void
     {
@@ -385,8 +367,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string      $sectionSeparator       section separator to set
-     * @uses            self::fail_after_init()
-     * @uses            self::$sectionSeparator
      */
     public function setSectionSeparator(string $sectionSeparator): void
     {
@@ -401,7 +381,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string|null $namespace              namespace to set
-     * @uses            self::$namespace
      */
     public function setNamespace(string|null $namespace) : void
     {
@@ -423,8 +402,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @return          array<string>   with the user languages sorted by priority
-     * @uses            self::$forcedLang
-     * @uses            self::$fallbackLang
      */
     public function getUserLangs() : array
     {
@@ -476,7 +453,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string          $langcode           language code to use
-     * @uses            self::$filePath
      */
     protected function getConfigFilename(string $langcode) : string
     {
@@ -557,7 +533,6 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @throws          \BadMethodCallException if the class is already initalized
-     * @uses            self::$isInitialized
      */
     protected function fail_after_init(): void
     {
