@@ -632,7 +632,7 @@ class i18n implements i18nInterface
             "        if (\is_array(\$constant)) {\n".
             "            throw new ConversionException(\"cannot convert array to int\");\n".
             "        }\n\n".
-            "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "        \$return = \$args ? \\vsprintf(\$constant, \$args) : \$constant;\n".
             "        return \\intval(\$return);\n".
             "    }\n\n".
             "    /**\n".
@@ -647,7 +647,7 @@ class i18n implements i18nInterface
             "        if (\is_array(\$constant)) {\n".
             "            throw new ConversionException(\"cannot convert array to float\");\n".
             "        }\n\n".
-            "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "        \$return = \$args ? \\vsprintf(\$constant, \$args) : \$constant;\n".
             "        return \\floatval(\$return);\n".
             "    }\n\n".
             "    /**\n".
@@ -662,7 +662,7 @@ class i18n implements i18nInterface
             "        if (\is_array(\$constant)) {\n".
             "            throw new ConversionException(\"cannot convert array to string\");\n".
             "        }\n\n".
-            "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "        \$return = \$args ? \\vsprintf(\$constant, \$args) : \$constant;\n".
             "        return \\strval(\$return);\n".
             "    }\n\n".
             "    /**\n".
@@ -677,7 +677,7 @@ class i18n implements i18nInterface
             "        if (\is_array(\$constant)) {\n".
             "            throw new ConversionException(\"cannot convert array to bool\");\n".
             "        }\n\n".
-            "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "        \$return = \$args ? \\vsprintf(\$constant, \$args) : \$constant;\n".
             "        return \\boolval(\$return);\n".
             "    }\n".
             "}\n\n".
