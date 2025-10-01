@@ -10,6 +10,7 @@
 namespace DavidLienhard\i18n;
 
 use DavidLienhard\i18n\i18nInterface;
+use DavidLienhard\i18n\Exceptions\Conversion as ConversionException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\Local\LocalFilesystemAdapter;
@@ -617,6 +618,66 @@ class i18n implements i18nInterface
             "    {\n".
             "        \$return = \\constant(\"self::\".\$string);\n".
             "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "    }\n\n".
+            "    /**\n".
+            "     * return a translation as int\n".
+            "     *\n".
+            "     * @param           string          \$string         name of the property to call\n".
+            "     * @param           array|null      \$args           arguments for translation\n".
+            "     */\n".
+            "    public static function getAsInt(string \$string, array|null \$args = null) : int\n".
+            "    {\n".
+            "        \$constant = \\constant(\"self::\".\$string);\n\n".
+            "        if (\is_array(\$constant)) {\n".
+            "            throw new ConversionException(\"cannot convert array to string\");\n".
+            "        }\n\n".
+            "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "        return \\intval(\$return);\n".
+            "    }\n\n".
+            "    /**\n".
+            "     * return a translation as float\n".
+            "     *\n".
+            "     * @param           string          \$string         name of the property to call\n".
+            "     * @param           array|null      \$args           arguments for translation\n".
+            "     */\n".
+            "    public static function getAsFloat(string \$string, array|null \$args = null) : float\n".
+            "    {\n".
+            "        \$constant = \\constant(\"self::\".\$string);\n\n".
+            "        if (\is_array(\$constant)) {\n".
+            "            throw new ConversionException(\"cannot convert array to string\");\n".
+            "        }\n\n".
+            "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "        return \\floatval(\$return);\n".
+            "    }\n\n".
+            "    /**\n".
+            "     * return a translation as string\n".
+            "     *\n".
+            "     * @param           string          \$string         name of the property to call\n".
+            "     * @param           array|null      \$args           arguments for translation\n".
+            "     */\n".
+            "    public static function getAsString(string \$string, array|null \$args = null) : string\n".
+            "    {\n".
+            "        \$constant = \\constant(\"self::\".\$string);\n\n".
+            "        if (\is_array(\$constant)) {\n".
+            "            throw new ConversionException(\"cannot convert array to string\");\n".
+            "        }\n\n".
+            "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "        return \\strval(\$return);\n".
+            "    }\n\n".
+            "    /**\n".
+            "     * return a translation as bool\n".
+            "     *\n".
+            "     * @param           string          \$string         name of the property to call\n".
+            "     * @param           array|null      \$args           arguments for translation\n".
+            "     */\n".
+            "    public static function getAsBool(string \$string, array|null \$args = null) : bool\n".
+            "    {\n".
+            "        \$constant = \\constant(\"self::\".\$string);\n\n".
+            "        if (\is_array(\$constant)) {\n".
+            "            throw new ConversionException(\"cannot convert array to string\");\n".
+            "        }\n\n".
+            "        \$return = \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
+            "        return \\boolval(\$return);\n".
             "    }\n".
             "}\n\n".
             "/**\n".
