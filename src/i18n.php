@@ -10,7 +10,6 @@
 namespace DavidLienhard\i18n;
 
 use DavidLienhard\i18n\i18nInterface;
-use DavidLienhard\i18n\Exceptions\Conversion as ConversionException;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\Local\LocalFilesystemAdapter;
@@ -594,6 +593,7 @@ class i18n implements i18nInterface
         return
             "<?php declare(strict_types=1);\n\n".
             ($this->namespace !== null ? "namespace ".$this->namespace.";\n\n" : "").
+            "use \\DavidLienhard\\i18n\\Exceptions\\Conversion as ConversionException;\n".
             "use \\DavidLienhard\\i18n\\i18nCacheInterface;\n\n".
             "class ".$this->prefix." implements i18nCacheInterface\n".
             "{\n".
