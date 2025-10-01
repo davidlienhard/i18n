@@ -465,31 +465,26 @@ class i18n implements i18nInterface
      * @author          David Lienhard <david.lienhard@tourasia.ch>
      * @copyright       David Lienhard
      * @param           string          $filename           file to load
-     * @throws          \InvalidArgumentException           if the extenstion of the given file is not supported
+     * @throws          \InvalidArgumentException           if the extension of the given file is not supported
      */
     protected function load(string $filename) : array
     {
         $extension = \strtolower(\pathinfo($filename, PATHINFO_EXTENSION)) ;
-        switch ($extension) {
-            case "properties":
-            case "ini":
-                $config = \parse_ini_string($this->getFileContents($filename), true);
-                break;
-            case "yml":
-            case "yaml":
-                $config = Yaml::parse($this->getFileContents($filename)) ;
-                break;
-            case "neon":
-                $config = Neon::decode($this->getFileContents($filename)) ;
-                break;
-            case "json":
-                $config = \json_decode($this->getFileContents($filename), true);
-                break;
-            default:
-                throw new \InvalidArgumentException(
-                    $extension." is not a valid extension!"
-                );
-        }//end switch
+
+        try {
+            $config = match ($extension) {
+                "properties", "ini" => \parse_ini_string($this->getFileContents($filename), true),
+                "yml", "yaml"       => Yaml::parse($this->getFileContents($filename)),
+                "neon"              => Neon::decode($this->getFileContents($filename)),
+                "json"              => \json_decode($this->getFileContents($filename), true)
+            };
+        } catch (\UnhandledMatchError $e) {
+            throw new \InvalidArgumentException(
+                $extension." is not a valid extension!",
+                $e->getCode(),
+                $e
+            );
+        }
 
         if (!is_array($config)) {
             throw new \Exception("unable to parse language files");
