@@ -544,8 +544,8 @@ class i18n implements i18nInterface
                         __CLASS__.": Cannot compile translation key ".$fullName." because it is not a valid PHP identifier."
                     );
                 }
-                $code .= "    /** @var int|float|string|bool */\n";
-                $code .= "    public const ".$fullName." = '".str_replace("'", "\\'", \strval($value))."';\n\n";
+
+                $code .= "    public const string ".$fullName." = '".str_replace("'", "\\'", \strval($value))."';\n";
             }
         }
         return $code;
@@ -594,7 +594,6 @@ class i18n implements i18nInterface
         return
             "<?php declare(strict_types=1);\n\n".
             ($this->namespace !== null ? "namespace ".$this->namespace.";\n\n" : "").
-            "use \\DavidLienhard\\i18n\\Exceptions\\Conversion as ConversionException;\n".
             "use \\DavidLienhard\\i18n\\i18nCacheInterface;\n\n".
             "class ".$this->prefix." implements i18nCacheInterface\n".
             "{\n".
@@ -605,7 +604,7 @@ class i18n implements i18nInterface
             "     * @param           string          \$string         name of the property to call\n".
             "     * @param           array|null      \$args           arguments for translation\n".
             "     */\n".
-            "    public static function __callStatic(string \$string, array|null \$args) : int|float|string|bool\n".
+            "    public static function __callStatic(string \$string, array|null \$args) : string\n".
             "    {\n".
             "        return \\vsprintf(\\constant(\"self::\".\$string), \$args);\n".
             "    }\n\n".
@@ -615,70 +614,10 @@ class i18n implements i18nInterface
             "     * @param           string          \$string         name of the property to call\n".
             "     * @param           array|null      \$args           arguments for translation\n".
             "     */\n".
-            "    public static function get(string \$string, array|null \$args = null) : int|float|string|bool\n".
+            "    public static function get(string \$string, array|null \$args = null) : string\n".
             "    {\n".
             "        \$return = \\constant(\"self::\".\$string);\n".
             "        return \$args ? \\vsprintf(\$return, \$args) : \$return;\n".
-            "    }\n\n".
-            "    /**\n".
-            "     * return a translation as int\n".
-            "     *\n".
-            "     * @param           string          \$string         name of the property to call\n".
-            "     * @param           array|null      \$args           arguments for translation\n".
-            "     */\n".
-            "    public static function getAsInt(string \$string, array|null \$args = null) : int\n".
-            "    {\n".
-            "        \$constant = \\constant(\"self::\".\$string);\n\n".
-            "        if (\is_array(\$constant)) {\n".
-            "            throw new ConversionException(\"cannot convert array to int\");\n".
-            "        }\n\n".
-            "        \$return = \$args ? \\vsprintf(\$constant, \$args) : \$constant;\n".
-            "        return \\intval(\$return);\n".
-            "    }\n\n".
-            "    /**\n".
-            "     * return a translation as float\n".
-            "     *\n".
-            "     * @param           string          \$string         name of the property to call\n".
-            "     * @param           array|null      \$args           arguments for translation\n".
-            "     */\n".
-            "    public static function getAsFloat(string \$string, array|null \$args = null) : float\n".
-            "    {\n".
-            "        \$constant = \\constant(\"self::\".\$string);\n\n".
-            "        if (\is_array(\$constant)) {\n".
-            "            throw new ConversionException(\"cannot convert array to float\");\n".
-            "        }\n\n".
-            "        \$return = \$args ? \\vsprintf(\$constant, \$args) : \$constant;\n".
-            "        return \\floatval(\$return);\n".
-            "    }\n\n".
-            "    /**\n".
-            "     * return a translation as string\n".
-            "     *\n".
-            "     * @param           string          \$string         name of the property to call\n".
-            "     * @param           array|null      \$args           arguments for translation\n".
-            "     */\n".
-            "    public static function getAsString(string \$string, array|null \$args = null) : string\n".
-            "    {\n".
-            "        \$constant = \\constant(\"self::\".\$string);\n\n".
-            "        if (\is_array(\$constant)) {\n".
-            "            throw new ConversionException(\"cannot convert array to string\");\n".
-            "        }\n\n".
-            "        \$return = \$args ? \\vsprintf(\$constant, \$args) : \$constant;\n".
-            "        return \\strval(\$return);\n".
-            "    }\n\n".
-            "    /**\n".
-            "     * return a translation as bool\n".
-            "     *\n".
-            "     * @param           string          \$string         name of the property to call\n".
-            "     * @param           array|null      \$args           arguments for translation\n".
-            "     */\n".
-            "    public static function getAsBool(string \$string, array|null \$args = null) : bool\n".
-            "    {\n".
-            "        \$constant = \\constant(\"self::\".\$string);\n\n".
-            "        if (\is_array(\$constant)) {\n".
-            "            throw new ConversionException(\"cannot convert array to bool\");\n".
-            "        }\n\n".
-            "        \$return = \$args ? \\vsprintf(\$constant, \$args) : \$constant;\n".
-            "        return \\boolval(\$return);\n".
             "    }\n".
             "}\n\n".
             "/**\n".
@@ -688,7 +627,7 @@ class i18n implements i18nInterface
             " * @param           string          \$string         name of the property to call\n".
             " * @param           array|null      \$args           arguments for translation\n".
             " */\n".
-            "function ".$this->prefix."(string \$string, array|null \$args = null) : int|float|string|bool\n".
+            "function ".$this->prefix."(string \$string, array|null \$args = null) : string\n".
             "{\n".
             "    \\trigger_error(\"this function is deprecated. use '".$this->prefix."::get()' instead\", E_USER_DEPRECATED);\n".
             "    \$return = \\constant(\"".$this->prefix."::\".\$string);\n".
