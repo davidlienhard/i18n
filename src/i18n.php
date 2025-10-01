@@ -544,7 +544,8 @@ class i18n implements i18nInterface
                         __CLASS__.": Cannot compile translation key ".$fullName." because it is not a valid PHP identifier."
                     );
                 }
-                $code .= "    const ".$fullName." = '".str_replace("'", "\\'", strval($value))."';\n";
+                $code .= "    /** @var int|float|string|bool */\n";
+                $code .= "    const ".$fullName." = '".str_replace("'", "\\'", strval($value))."';\n\n";
             }
         }
         return $code;
