@@ -18,7 +18,7 @@
         "email": "david.lienhard@tourasia.ch"
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.4",
         "league/flysystem": "^3",
         "symfony/yaml": "^7",
         "nette/neon": "^3"
