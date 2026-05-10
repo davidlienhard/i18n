@@ -20,7 +20,7 @@
     "require": {
         "php": "^8.4",
         "league/flysystem": "^3",
-        "symfony/yaml": "^7",
+        "symfony/yaml": "^8",
         "nette/neon": "^3"
     },
     "require-dev": {
